@@ -2,7 +2,11 @@
 
 namespace app\controllers;
 
+use app\components\auth\clients\HH;
+use app\components\AuthHandler;
 use Yii;
+use yii\authclient\Collection;
+use yii\base\Exception;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -37,6 +41,10 @@ class SiteController extends Controller
     public function actions()
     {
         return [
+            'auth' => [
+                'class' => 'yii\authclient\AuthAction',
+                'successCallback' => [$this, 'onAuthSuccess'],
+            ],
             'error' => [
                 'class' => 'yii\web\ErrorAction',
             ],
@@ -47,9 +55,33 @@ class SiteController extends Controller
         ];
     }
 
+    public function onAuthSuccess($client)
+    {
+        (new AuthHandler($client))->handle();
+    }
+
     public function actionIndex()
     {
-        return $this->render('index');
+        if ($this->getHhClient()->getAccessToken() == null) {
+            return $this->redirect(['site/auth', 'authclient' => 'hh']);
+        }
+
+        $data = $this->getHhClient()->api('me', 'GET');
+        return $this->render('index', [
+            'data' => $data,
+        ]);
+    }
+
+    public function actionResumes()
+    {
+        if ($this->getHhClient()->getAccessToken() == null) {
+            return $this->redirect(['site/auth', 'authclient' => 'hh']);
+        }
+
+        $data = $this->getHhClient()->api('resumes', 'GET');
+        return $this->render('resumes', [
+            'data' => $data,
+        ]);
     }
 
     public function actionLogin()
@@ -90,5 +122,21 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+
+    /**
+     * @return \yii\authclient\ClientInterface|HH
+     * @throws Exception
+     * @throws \yii\base\InvalidConfigException
+     */
+    protected function getHhClient()
+    {
+        /** @var Collection $clientCollection */
+        $clientCollection = Yii::$app->get('authClientCollection');
+        /** @var HH $hhClient */
+        if (!$clientCollection->hasClient('hh')) {
+            throw new Exception('Not found hh client');
+        }
+        return $clientCollection->getClient('hh');
     }
 }
