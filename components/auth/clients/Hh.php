@@ -4,7 +4,7 @@ namespace app\components\auth\clients;
 
 use yii\authclient\OAuth2;
 
-class HH extends OAuth2
+class Hh extends OAuth2
 {
     public $authUrl = 'https://hh.ru/oauth/authorize';
     public $tokenUrl = 'https://hh.ru/oauth/token';

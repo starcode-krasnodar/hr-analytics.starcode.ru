@@ -48,10 +48,10 @@ $config = [
             'class' => 'yii\authclient\Collection',
             'clients' => [
                 'hh' => [
-                    'class' => 'app\components\auth\clients\HH',
-                    'clientId' => 'JLT7HUHUEV7DJAU5DBOR9G57E41ILS91GS5DH8J0IS698CUETSR6INCG26MA0EDP',
-                    'clientSecret' => 'H2AO7KROJKA7OMP7UQRMS35L1BSDRPJDF4LIIU4V5AU3F2BJ8JG710GMIR3PNHGH',
-                    'returnUrl' => 'http://localhost:8080/site/auth?authclient=hh',
+                    'class' => 'app\components\auth\clients\Hh',
+                    'clientId' => $params['hh.clientId'],
+                    'clientSecret' => $params['hh.clientSecret'],
+                    'returnUrl' => $params['hh.returnUrl'],
                 ],
             ],
         ],

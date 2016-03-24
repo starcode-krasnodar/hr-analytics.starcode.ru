@@ -2,7 +2,7 @@
 
 namespace app\controllers;
 
-use app\components\auth\clients\HH;
+use app\components\auth\clients\Hh;
 use app\components\AuthHandler;
 use Yii;
 use yii\authclient\Collection;
@@ -125,7 +125,7 @@ class SiteController extends Controller
     }
 
     /**
-     * @return \yii\authclient\ClientInterface|HH
+     * @return \yii\authclient\ClientInterface|Hh
      * @throws Exception
      * @throws \yii\base\InvalidConfigException
      */
