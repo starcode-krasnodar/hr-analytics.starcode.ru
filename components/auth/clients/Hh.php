@@ -13,17 +13,17 @@ class Hh extends OAuth2
     /**
      * @inheritdoc
      */
-    protected function apiInternal($accessToken, $url, $method, array $params, array $headers)
+    protected function defaultName()
     {
-        $headers[] = 'Authorization: Bearer ' . $accessToken->getToken();
+        return 'hh';
+    }
 
-        $this->setCurlOptions([
-            CURLOPT_USERAGENT => 'anatoly.garkusha (anatoly.garkusha@starcode.ru)',
-            CURLOPT_SSL_VERIFYPEER => false,
-            CURLOPT_SSL_VERIFYHOST => 0,
-        ]);
-
-        return $this->sendRequest($method, $url, $params, $headers);
+    /**
+     * @inheritdoc
+     */
+    protected function defaultTitle()
+    {
+        return 'HeadHunter';
     }
 
     /**
@@ -34,13 +34,21 @@ class Hh extends OAuth2
         return $this->api('me', 'GET');
     }
 
-    protected function defaultName()
+    /**
+     * @inheritdoc
+     *
+     * For customize headers.
+     */
+    protected function apiInternal($accessToken, $url, $method, array $params, array $headers)
     {
-        return 'hh';
-    }
+        $headers[] = 'Authorization: Bearer ' . $accessToken->getToken();
 
-    protected function defaultTitle()
-    {
-        return 'HeadHunter';
+        $this->setCurlOptions([
+            CURLOPT_USERAGENT => \Yii::$app->params['hh.userAgent'],
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_SSL_VERIFYHOST => 0,
+        ]);
+
+        return $this->sendRequest($method, $url, $params, $headers);
     }
 }

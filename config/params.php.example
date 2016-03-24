@@ -2,4 +2,9 @@
 
 return [
     'adminEmail' => 'admin@example.com',
+
+    'hh.clientId' => 'YOUR CLIENT ID',
+    'hh.clientSecret' => 'YOUR CLIENT SECRET',
+    'hh.returnUrl' => 'YOUR RETURN URL',
+    'hh.userAgent' => 'APP USER AGENT',
 ];

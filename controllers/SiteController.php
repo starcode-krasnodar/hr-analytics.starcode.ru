@@ -20,10 +20,10 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout'],
+                'only' => ['index', 'resumes', 'logout'],
                 'rules' => [
                     [
-                        'actions' => ['logout'],
+                        'actions' => ['index', 'resumes', 'logout'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -62,10 +62,6 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        if ($this->getHhClient()->getAccessToken() == null) {
-            return $this->redirect(['site/auth', 'authclient' => 'hh']);
-        }
-
         $data = $this->getHhClient()->api('me', 'GET');
         return $this->render('index', [
             'data' => $data,
@@ -74,10 +70,6 @@ class SiteController extends Controller
 
     public function actionResumes()
     {
-        if ($this->getHhClient()->getAccessToken() == null) {
-            return $this->redirect(['site/auth', 'authclient' => 'hh']);
-        }
-
         $data = $this->getHhClient()->api('resumes', 'GET');
         return $this->render('resumes', [
             'data' => $data,
