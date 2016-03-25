@@ -7,13 +7,13 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
-$this->title = 'Login';
+$this->title = Yii::t('app', 'Login');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="row">
     <div class="col-sm-6 col-sm-offset-3">
         <div class="panel panel-default">
-            <div class="panel-heading">Войти в аккаунт</div>
+            <div class="panel-heading"><?= Yii::t('app', 'Sign in to your account') ?></div>
             <div class="panel-body">
                 <?php $form = ActiveForm::begin(); ?>
 
@@ -24,8 +24,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= $form->field($model, 'rememberMe')->checkbox() ?>
 
                 <div class="form-group">
-                    <?= Html::submitButton('Вход', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
-                    <?= Html::a('Войти через ' . Html::img(Yii::getAlias('@web/img/hh.ru-small.svg'), ['width' => 16]), ['/site/auth', 'authclient' => 'hh'], [
+                    <?= Html::submitButton(Yii::t('app', 'Sign in'), ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+                    <?= Html::a(Yii::t('app', 'Sign in with {source}', [
+                        'source' => Html::img(Yii::getAlias('@web/img/hh.ru-small.svg'), ['width' => 16]),
+                    ]), ['/site/auth', 'authclient' => 'hh'], [
                         'class' => 'btn btn-primary',
                     ]) ?>
                 </div>

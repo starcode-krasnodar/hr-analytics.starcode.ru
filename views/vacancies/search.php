@@ -20,8 +20,15 @@ $this->title = Yii::t('app', 'Vacancies search');
         <?= \yii\grid\GridView::widget([
             'dataProvider' => $dataProvider,
             'columns' => [
-                'name',
-                'alternate_url:url',
+                [
+                    'label' => Yii::t('app', 'Vacancy Name'),
+                    'attribute' => 'name',
+                ],
+                [
+                    'label' => Yii::t('app', 'External URL'),
+                    'attribute' => 'alternate_url',
+                    'format' => 'url',
+                ],
             ],
         ]) ?>
     </div>

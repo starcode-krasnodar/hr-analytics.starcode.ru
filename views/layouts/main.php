@@ -36,16 +36,19 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-            ['label' => 'Vacancies', 'url' => ['/vacancies/search']],
-            ['label' => 'Resumes', 'url' => ['/resumes/search']],
+            ['label' => Yii::t('app', 'Home'), 'url' => ['/site/index']],
+            ['label' => Yii::t('app', 'Vacancies'), 'items' => [
+                ['label' => Yii::t('app', 'Index'), 'url' => ['/vacancies/index']],
+                ['label' => Yii::t('app', 'Search'), 'url' => ['/vacancies/search']],
+            ]],
+            ['label' => Yii::t('app', 'Resumes'), 'url' => ['/resumes/search']],
             Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/site/login']]
+                ['label' => Yii::t('app', 'Login'), 'url' => ['/site/login']]
             ) : (
                 '<li>'
                 . Html::beginForm(['/site/logout'], 'post')
                 . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->username . ')',
+                    Yii::t('app', 'Logout ({username})', ['username' => Yii::$app->user->identity->username ]),
                     ['class' => 'btn btn-link']
                 )
                 . Html::endForm()
@@ -66,7 +69,7 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; My Company <?= date('Y') ?></p>
+        <p class="pull-left">&copy; Starcode <?= date('Y') ?></p>
 
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>

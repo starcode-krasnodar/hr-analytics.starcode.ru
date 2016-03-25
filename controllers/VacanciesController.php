@@ -8,6 +8,11 @@ use yii\web\Controller;
 
 class VacanciesController extends Controller
 {
+    public function actionIndex()
+    {
+        return $this->render('index');
+    }
+
     /**
      * Search vacancies.
      *

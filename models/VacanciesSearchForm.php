@@ -25,7 +25,7 @@ class VacanciesSearchForm extends Model
     public function attributeLabels()
     {
         return [
-            'query' => 'Введите поисковую фразу и нажмите Enter',
+            'query' => Yii::t('app', 'Enter your search phrase and press Enter'),
         ];
     }
 

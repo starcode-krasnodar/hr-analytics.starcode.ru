@@ -6,6 +6,7 @@ $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
+    'language' => 'ru-RU',
     'components' => [
         'assetManager' => [
             'bundles' => [
@@ -60,6 +61,19 @@ $config = [
                     'clientId' => $params['hh.clientId'],
                     'clientSecret' => $params['hh.clientSecret'],
                     'returnUrl' => $params['hh.returnUrl'],
+                ],
+            ],
+        ],
+        'i18n' => [
+            'translations' => [
+                'app*' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    //'basePath' => '@app/messages',
+                    //'sourceLanguage' => 'en-US',
+                    'fileMap' => [
+                        'app' => 'app.php',
+                        'app/error' => 'error.php',
+                    ],
                 ],
             ],
         ],
