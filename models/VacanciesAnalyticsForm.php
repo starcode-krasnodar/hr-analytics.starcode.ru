@@ -27,6 +27,13 @@ class VacanciesAnalyticsForm extends Model
         ];
     }
 
+    public function attributeLabels()
+    {
+        return [
+            'query' => \Yii::t('app', 'Enter vacancy name and press Enter'),
+        ];
+    }
+
     public function process()
     {
         $allModels = [];

@@ -18,11 +18,10 @@
  */
 return [
     'Email' => '',
+    'Enter vacancy name and press Enter' => 'Введите имя вакансии и нажмите Enter',
     'ID' => '',
     'Index' => '',
     'Linked {client} account.' => '',
-    'Max salary' => 'Максимальная зарплата',
-    'Min salary' => 'Минимальная зарплата',
     'Password Reset Token' => '',
     'Unable to link {client} account. There is another user using it.' => '',
     'Unable to link {client} account: {errors}' => '',
@@ -38,6 +37,8 @@ return [
     'Home' => 'Главная',
     'Login' => 'Вход',
     'Logout ({username})' => 'Выйти ({username})',
+    'Max salary' => 'Максимальная зарплата',
+    'Min salary' => 'Минимальная зарплата',
     'Password' => 'Пароль',
     'Password Hash' => 'Хэш пароля',
     'Remember me' => 'Запомнить меня',
