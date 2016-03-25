@@ -35,7 +35,9 @@ class VacanciesSearchForm extends Model
     public function search()
     {
         return new VacanciesDataProvider([
-            'text' => $this->query,
+            'params' => [
+                'text' => $this->query,
+            ],
         ]);
     }
 
