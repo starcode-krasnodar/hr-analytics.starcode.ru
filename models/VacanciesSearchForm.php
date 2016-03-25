@@ -3,6 +3,7 @@
 namespace app\models;
 
 use app\components\auth\clients\Hh;
+use app\components\data\VacanciesDataProvider;
 use Exception;
 use Yii;
 use yii\authclient\Collection;
@@ -33,17 +34,9 @@ class VacanciesSearchForm extends Model
      */
     public function search()
     {
-        $dataProvider = new ArrayDataProvider();
-        $hhClient = $this->getHhClient();
-        $result = $hhClient->api('vacancies', 'GET', [
+        return new VacanciesDataProvider([
             'text' => $this->query,
         ]);
-
-        if (isset($result['items'])) {
-            $dataProvider->setModels($result['items']);
-        }
-
-        return $dataProvider;
     }
 
 
