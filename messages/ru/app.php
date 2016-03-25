@@ -17,15 +17,14 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'Auth Key' => '',
-    'Created At' => '',
+    'Analytics' => 'Аналитика',
+    'Auth Key' => 'Ключ авторизации',
+    'Created At' => 'Создан',
     'Email' => '',
     'ID' => '',
     'Index' => '',
     'Linked {client} account.' => '',
     'Password Reset Token' => '',
-    'Sign in' => 'Вход',
-    'Sign in with {source}' => 'Войти через {source}',
     'Unable to link {client} account. There is another user using it.' => '',
     'Unable to link {client} account: {errors}' => '',
     'Unable to save user: {errors}' => '',
@@ -41,7 +40,9 @@ return [
     'Remember me' => 'Запомнить меня',
     'Resumes' => 'Резюме',
     'Search' => 'Поиск',
+    'Sign in' => 'Вход',
     'Sign in to your account' => 'Войти в аккаунт',
+    'Sign in with {source}' => 'Войти через {source}',
     'Status' => 'Статус',
     'Updated At' => 'Изменен',
     'Username' => 'Имя пользователя',

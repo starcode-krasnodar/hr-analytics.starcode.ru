@@ -39,6 +39,7 @@ AppAsset::register($this);
             ['label' => Yii::t('app', 'Home'), 'url' => ['/site/index']],
             ['label' => Yii::t('app', 'Vacancies'), 'items' => [
                 ['label' => Yii::t('app', 'Index'), 'url' => ['/vacancies/index']],
+                ['label' => Yii::t('app', 'Analytics'), 'url' => ['/vacancies/analytics']],
                 ['label' => Yii::t('app', 'Search'), 'url' => ['/vacancies/search']],
             ]],
             ['label' => Yii::t('app', 'Resumes'), 'url' => ['/resumes/search']],
