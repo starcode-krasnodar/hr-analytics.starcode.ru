@@ -33,29 +33,31 @@ AppAsset::register($this);
             'class' => 'navbar-default navbar-fixed-top',
         ],
     ]);
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => [
-            ['label' => Yii::t('app', 'Home'), 'url' => ['/site/index']],
+    if (Yii::$app->user->isGuest) {
+        $items = [
+            ['label' => Yii::t('app', 'Login'), 'url' => ['/site/login']]
+        ];
+    } else {
+        $items = [['label' => Yii::t('app', 'Home'), 'url' => ['/site/index']],
             ['label' => Yii::t('app', 'Vacancies'), 'items' => [
                 ['label' => Yii::t('app', 'Index'), 'url' => ['/vacancies/index']],
                 ['label' => Yii::t('app', 'Analytics'), 'url' => ['/vacancies/analytics']],
                 ['label' => Yii::t('app', 'Search'), 'url' => ['/vacancies/search']],
             ]],
             ['label' => Yii::t('app', 'Resumes'), 'url' => ['/resumes/search']],
-            Yii::$app->user->isGuest ? (
-                ['label' => Yii::t('app', 'Login'), 'url' => ['/site/login']]
-            ) : (
-                '<li>'
-                . Html::beginForm(['/site/logout'], 'post')
-                . Html::submitButton(
-                    Yii::t('app', 'Logout ({username})', ['username' => Yii::$app->user->identity->username ]),
-                    ['class' => 'btn btn-link']
-                )
-                . Html::endForm()
-                . '</li>'
+            '<li>'
+            . Html::beginForm(['/site/logout'], 'post')
+            . Html::submitButton(
+                Yii::t('app', 'Logout ({username})', ['username' => Yii::$app->user->identity->username ]),
+                ['class' => 'btn btn-link']
             )
-        ],
+            . Html::endForm()
+            . '</li>'
+        ];
+    }
+    echo Nav::widget([
+        'options' => ['class' => 'navbar-nav navbar-right'],
+        'items' => $items,
     ]);
     NavBar::end();
     ?>
