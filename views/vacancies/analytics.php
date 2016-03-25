@@ -17,13 +17,13 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
     <?php if (!empty($totalCount)): ?>
         <li class="list-group-item">
             <span class="badge"><?= $totalCount ?></span>
-            Общее количество вакансий
+            <?= Yii::t('app', 'The total number of vacancies') ?>
         </li>
     <?php endif ?>
     <?php if (!empty($salaryAverage)): ?>
         <li class="list-group-item">
             <span class="badge"><?= Yii::$app->formatter->asCurrency($salaryAverage, 'RUB') ?></span>
-            Средняя зарплата
+            <?= Yii::t('app', 'Average salary') ?>
         </li>
     <?php endif ?>
 </ul>
