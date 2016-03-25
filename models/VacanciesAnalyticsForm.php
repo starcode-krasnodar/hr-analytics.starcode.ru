@@ -17,6 +17,8 @@ class VacanciesAnalyticsForm extends Model
 
     protected $_totalCount;
     protected $_salaryAverage;
+    protected $_salaryMax;
+    protected $_salaryMin;
 
     public function rules()
     {
@@ -49,6 +51,26 @@ class VacanciesAnalyticsForm extends Model
             $dataProvider->prepare(true);
         }
 
+        $this->_salaryMax = array_reduce($allModels, function($carry, $item) {
+            if (!empty($item['salary']['to'])) {
+                return max([$item['salary']['to'], $carry]);
+            } elseif (!empty($item['salary']['from'])) {
+                return max([$item['salary']['from'], $carry]);
+            } else {
+                return $carry;
+            }
+        }, 0);
+
+        $this->_salaryMin = array_reduce($allModels, function($carry, $item) {
+            if (!empty($item['salary']['from'])) {
+                return min([$item['salary']['from'], $carry]);
+            } elseif (!empty($item['salary']['to'])) {
+                return min([$item['salary']['to'], $carry]);
+            } else {
+                return $carry;
+            }
+        }, 0);
+
         $salarySum = array_reduce($allModels, function($carry, $item) {
             if (!empty($item['salary']['to']) && !empty($item['salary']['from'])) {
                 $salary = round(($item['salary']['to'] + $item['salary']['from']) / 2);
@@ -80,5 +102,21 @@ class VacanciesAnalyticsForm extends Model
     public function getTotalCount()
     {
         return $this->_totalCount;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSalaryMax()
+    {
+        return $this->_salaryMax;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSalaryMin()
+    {
+        return $this->_salaryMin;
     }
 }

@@ -17,13 +17,13 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'Average salary' => 'Средняя зарплата',
     'Email' => '',
     'ID' => '',
     'Index' => '',
     'Linked {client} account.' => '',
+    'Max salary' => 'Максимальная зарплата',
+    'Min salary' => 'Минимальная зарплата',
     'Password Reset Token' => '',
-    'The total number of vacancies' => 'Общее количество вакансий',
     'Unable to link {client} account. There is another user using it.' => '',
     'Unable to link {client} account: {errors}' => '',
     'Unable to save user: {errors}' => '',
@@ -31,6 +31,7 @@ return [
     'User with the same email as in {client} account already exists but isn\'t linked to it. Login using email first to link it.' => '',
     'Analytics' => 'Аналитика',
     'Auth Key' => 'Ключ авторизации',
+    'Average salary' => 'Средняя зарплата',
     'Created At' => 'Создан',
     'Enter your search phrase and press Enter' => 'Введите поисковую фразу и нажмите Enter',
     'External URL' => 'Внешняя ссылка',
@@ -46,6 +47,7 @@ return [
     'Sign in to your account' => 'Войти в аккаунт',
     'Sign in with {source}' => 'Войти через {source}',
     'Status' => 'Статус',
+    'The total number of vacancies' => 'Общее количество вакансий',
     'Updated At' => 'Изменен',
     'Username' => 'Имя пользователя',
     'Vacancies' => 'Вакансии',

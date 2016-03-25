@@ -4,6 +4,8 @@
 /* @var $model \app\models\VacanciesAnalyticsForm */
 /* @var $totalCount int */
 /* @var $salaryAverage int */
+/* @var $salaryMax int */
+/* @var $salaryMin int */
 
 $this->title = Yii::t('app', 'Analytics');
 $this->params['breadcrumbs'][] = ['label' => $this->title];
@@ -18,6 +20,18 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
         <li class="list-group-item">
             <span class="badge"><?= $totalCount ?></span>
             <?= Yii::t('app', 'The total number of vacancies') ?>
+        </li>
+    <?php endif ?>
+    <?php if (!empty($salaryMax)): ?>
+        <li class="list-group-item">
+            <span class="badge"><?= Yii::$app->formatter->asCurrency($salaryMax, 'RUB') ?></span>
+            <?= Yii::t('app', 'Max salary') ?>
+        </li>
+    <?php endif ?>
+    <?php if (!empty($salaryMin)): ?>
+        <li class="list-group-item">
+            <span class="badge"><?= Yii::$app->formatter->asCurrency($salaryMin, 'RUB') ?></span>
+            <?= Yii::t('app', 'Min salary') ?>
         </li>
     <?php endif ?>
     <?php if (!empty($salaryAverage)): ?>
