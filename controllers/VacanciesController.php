@@ -40,6 +40,8 @@ class VacanciesController extends Controller
         return $this->render('analytics', [
             'model' => $analyticsModel,
             'totalCount' => $analyticsModel->getTotalCount(),
+            'totalCountWithSalary' => $analyticsModel->getTotalCountWithSalary(),
+            'totalCountWithSalaryPercent' => $analyticsModel->getTotalCountWithSalaryPercent(),
             'salaryMax' => $analyticsModel->getSalaryMax(),
             'salaryMin' => $analyticsModel->getSalaryMin(),
             'salaryAverage' => $analyticsModel->getSalaryAverage(),

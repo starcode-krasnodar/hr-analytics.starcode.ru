@@ -3,6 +3,8 @@
 /* @var $this \yii\web\View */
 /* @var $model \app\models\VacanciesAnalyticsForm */
 /* @var $totalCount int */
+/* @var $totalCountWithSalary int */
+/* @var $totalCountWithSalaryPercent int */
 /* @var $salaryAverage int */
 /* @var $salaryMax int */
 /* @var $salaryMin int */
@@ -16,7 +18,7 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
     <?= $form->field($model, 'area')->label(false)->widget(\app\widgets\AreaSelect2\Widget::className()) ?>
 
     <div class="form-group">
-        <?= \yii\helpers\Html::submitInput(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>
+        <?= \yii\helpers\Html::submitInput(Yii::t('app', 'Submit'), ['class' => 'btn btn-primary']) ?>
         <?= \yii\helpers\Html::a(Yii::t('app', 'Reset'), ['/vacancies/analytics'], ['class' => 'btn btn-danger']) ?>
     </div>
 <?php $form->end() ?>
@@ -26,6 +28,18 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
         <li class="list-group-item">
             <span class="badge"><?= $totalCount ?></span>
             <?= Yii::t('app', 'The total number of vacancies') ?>
+        </li>
+    <?php endif ?>
+    <?php if (!empty($totalCountWithSalary)): ?>
+        <li class="list-group-item">
+            <span class="badge"><?= $totalCountWithSalary ?></span>
+            <?= Yii::t('app', 'The number of jobs with the specified salary') ?>
+        </li>
+    <?php endif ?>
+    <?php if (!empty($totalCountWithSalaryPercent)): ?>
+        <li class="list-group-item">
+            <span class="badge"><?= round($totalCountWithSalaryPercent) ?> %</span>
+            <?= Yii::t('app', 'The number of jobs with the specified salary percentage') ?>
         </li>
     <?php endif ?>
     <?php if (!empty($salaryMax)): ?>

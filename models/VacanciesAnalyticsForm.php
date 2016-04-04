@@ -15,6 +15,7 @@ class VacanciesAnalyticsForm extends Model
     public $area;
 
     protected $_totalCount;
+    protected $_totalCountWithSalary;
     protected $_salaryAverage;
     protected $_salaryMax;
     protected $_salaryMin;
@@ -43,7 +44,6 @@ class VacanciesAnalyticsForm extends Model
         $dataProvider = new VacanciesDataProvider([
             'params' => [
                 'text' => $this->query,
-                'only_with_salary' => true,
                 'area' => $this->area,
                 'currency' => 'RUR',
             ],
@@ -92,6 +92,14 @@ class VacanciesAnalyticsForm extends Model
             return $carry + $salary;
         }, 0);
 
+        $this->_totalCountWithSalary = array_reduce($allModels, function($carry, $item) {
+            if (isset($item['salary']) && !empty($item['salary'])) {
+                return $carry + 1;
+            } else {
+                return $carry;
+            }
+        });
+
         $this->_totalCount = count($allModels);
         $this->_salaryAverage = round($salarySum / $this->_totalCount);
     }
@@ -126,5 +134,22 @@ class VacanciesAnalyticsForm extends Model
     public function getSalaryMin()
     {
         return $this->_salaryMin;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTotalCountWithSalary()
+    {
+        return $this->_totalCountWithSalary;
+    }
+
+    /**
+     * @return float
+     */
+    public function getTotalCountWithSalaryPercent()
+    {
+        $percentage = $this->_totalCount == 0 ? 0 : ($this->_totalCountWithSalary / $this->_totalCount);
+        return $percentage * 100;
     }
 }
