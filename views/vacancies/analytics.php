@@ -24,25 +24,19 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
 <?php $form->end() ?>
 
 <ul class="list-group">
-    <?php if (!empty($totalCount)): ?>
-        <li class="list-group-item">
-            <span class="badge"><?= $totalCount ?></span>
-            <?= Yii::t('app', 'The total number of vacancies') ?>
-            <?= \yii\helpers\Html::a(Yii::t('app', 'detail'), ['/vacancies/search', (new \app\models\VacanciesSearchForm())->formName() => ['query' => $model->query, 'area' => $model->area]]) ?>
-        </li>
-    <?php endif ?>
-    <?php if (!empty($totalCountWithSalary)): ?>
-        <li class="list-group-item">
-            <span class="badge"><?= $totalCountWithSalary ?></span>
-            <?= Yii::t('app', 'The number of jobs with the specified salary') ?>
-        </li>
-    <?php endif ?>
-    <?php if (!empty($totalCountWithSalaryPercent)): ?>
-        <li class="list-group-item">
-            <span class="badge"><?= round($totalCountWithSalaryPercent) ?> %</span>
-            <?= Yii::t('app', 'The number of jobs with the specified salary percentage') ?>
-        </li>
-    <?php endif ?>
+    <li class="list-group-item">
+        <span class="badge"><?= $totalCount ?></span>
+        <?= Yii::t('app', 'The total number of vacancies') ?>
+        <?= \yii\helpers\Html::a(Yii::t('app', 'detail'), ['/vacancies/search', (new \app\models\VacanciesSearchForm())->formName() => ['query' => $model->query, 'area' => $model->area]]) ?>
+    </li>
+    <li class="list-group-item">
+        <span class="badge"><?= $totalCountWithSalary ?></span>
+        <?= Yii::t('app', 'The number of jobs with the specified salary') ?>
+    </li>
+    <li class="list-group-item">
+        <span class="badge"><?= round($totalCountWithSalaryPercent) ?> %</span>
+        <?= Yii::t('app', 'The number of jobs with the specified salary percentage') ?>
+    </li>
     <?php if (!empty($salaryMax)): ?>
         <li class="list-group-item">
             <span class="badge"><?= Yii::$app->formatter->asCurrency($salaryMax, 'RUB') ?></span>

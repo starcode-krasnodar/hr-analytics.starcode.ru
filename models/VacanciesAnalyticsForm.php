@@ -82,7 +82,7 @@ class VacanciesAnalyticsForm extends Model
             } else {
                 return $carry;
             }
-        });
+        }, 0);
 
         $this->_totalCount = count($allModels);
         $this->_salaryAverage = round($salarySum / $this->_totalCount);
