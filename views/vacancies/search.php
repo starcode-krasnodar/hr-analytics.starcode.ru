@@ -31,6 +31,37 @@ $this->title = Yii::t('app', 'Vacancies search');
                     'attribute' => 'name',
                 ],
                 [
+                    'label' => Yii::t('app', 'Salary'),
+                    'attribute' => 'salary',
+                    'content' => function($model) {
+                        if (!empty($model['salary'])) {
+                            $to = isset($model['salary']['to']) ? $model['salary']['to'] : 0;
+                            $from = isset($model['salary']['from']) ? $model['salary']['from'] : 0;
+                            $currency = isset($model['salary']['currency']) ? $model['salary']['currency'] : '';
+
+                            if (empty($to)) {
+                                return Yii::t('app', 'From {from} {currency}', [
+                                    'from' => '<b>' . $from . '</b>',
+                                    'currency' => $currency,
+                                ]);
+                            } elseif (empty($from)) {
+                                return Yii::t('app', 'To {to} {currency}', [
+                                    'to' => '<b>' . $to . '</b>',
+                                    'currency' => $currency,
+                                ]);
+                            } else {
+                                return Yii::t('app', 'From {from} to {to} {currency}', [
+                                    'from' => '<b>' . $from . '</b>',
+                                    'to' => '<b>' . $to . '</b>',
+                                    'currency' => $currency,
+                                ]);
+                            }
+                        } else {
+                            return Yii::t('app', 'Not specified');
+                        }
+                    },
+                ],
+                [
                     'label' => Yii::t('app', 'External URL'),
                     'attribute' => 'alternate_url',
                     'format' => 'url',
