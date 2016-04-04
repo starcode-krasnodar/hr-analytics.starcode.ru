@@ -11,6 +11,7 @@ $this->title = Yii::t('app', 'Vacancies search');
     <div class="col-sm-12">
         <?php $form = \yii\widgets\ActiveForm::begin(['method' => 'get']) ?>
             <?= $form->field($searchModel, 'query')->label(false)->textInput(['autofocus' => true, 'placeholder' => $searchModel->getAttributeLabel('query')]) ?>
+            <?= $form->field($searchModel, 'area')->label(false)->widget(\app\widgets\AreaSelect2\Widget::className()) ?>
         <?php $form->end() ?>
     </div>
 </div>

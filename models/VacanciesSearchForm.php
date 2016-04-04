@@ -39,6 +39,7 @@ class VacanciesSearchForm extends Model
         return new VacanciesDataProvider([
             'params' => [
                 'text' => $this->query,
+                'area' => $this->area,
             ],
         ]);
     }
