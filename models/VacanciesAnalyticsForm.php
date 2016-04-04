@@ -59,25 +59,8 @@ class VacanciesAnalyticsForm extends Model
             $dataProvider->prepare(true);
         }
 
-        $this->_salaryMax = array_reduce($allModels, function($carry, $item) {
-            if (!empty($item['salary']['to'])) {
-                return max([$item['salary']['to'], $carry]);
-            } elseif (!empty($item['salary']['from'])) {
-                return max([$item['salary']['from'], $carry]);
-            } else {
-                return $carry;
-            }
-        }, 0);
-
-        $this->_salaryMin = array_reduce($allModels, function($carry, $item) {
-            if (!empty($item['salary']['from'])) {
-                return min([$item['salary']['from'], $carry]);
-            } elseif (!empty($item['salary']['to'])) {
-                return min([$item['salary']['to'], $carry]);
-            } else {
-                return $carry;
-            }
-        }, 0);
+        $this->_salaryMax = array_reduce($allModels, [$this, 'reduceSalaryMax'], 0);
+        $this->_salaryMin = array_reduce($allModels, [$this, 'reduceSalaryMin'], 0);
 
         $salarySum = array_reduce($allModels, function($carry, $item) {
             if (!empty($item['salary']['to']) && !empty($item['salary']['from'])) {
@@ -102,6 +85,28 @@ class VacanciesAnalyticsForm extends Model
 
         $this->_totalCount = count($allModels);
         $this->_salaryAverage = round($salarySum / $this->_totalCount);
+    }
+
+    protected function reduceSalaryMax($carry, $item)
+    {
+        if (!empty($item['salary']['to'])) {
+            return max([$item['salary']['to'], $carry]);
+        } elseif (!empty($item['salary']['from'])) {
+            return max([$item['salary']['from'], $carry]);
+        } else {
+            return $carry;
+        }
+    }
+
+    protected function reduceSalaryMin($carry, $item)
+    {
+        if (!empty($item['salary']['from'])) {
+            return $carry == 0 ? $item['salary']['from'] : min([$item['salary']['from'], $carry]);
+        } elseif (!empty($item['salary']['to'])) {
+            return $carry == 0 ? $item['salary']['to'] : min([$item['salary']['to'], $carry]);
+        } else {
+            return $carry;
+        }
     }
 
     /**
