@@ -41,6 +41,7 @@ class VacanciesSearchForm extends Model
             'params' => [
                 'text' => $this->query,
                 'area' => $this->area,
+                'industry' => $this->industry,
             ],
         ]);
     }
