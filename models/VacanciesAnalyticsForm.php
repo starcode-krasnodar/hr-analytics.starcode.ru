@@ -12,6 +12,7 @@ class VacanciesAnalyticsForm extends Model
     const PAGE_SIZE = 100;
 
     public $query;
+    public $area;
 
     protected $_totalCount;
     protected $_salaryAverage;
@@ -22,6 +23,7 @@ class VacanciesAnalyticsForm extends Model
     {
         return [
             ['query', 'string'],
+            ['area', 'integer'],
         ];
     }
 
@@ -29,6 +31,7 @@ class VacanciesAnalyticsForm extends Model
     {
         return [
             'query' => \Yii::t('app', 'Enter vacancy name and press Enter'),
+            'area' => \Yii::t('app', 'Select search area'),
         ];
     }
 
@@ -41,7 +44,7 @@ class VacanciesAnalyticsForm extends Model
             'params' => [
                 'text' => $this->query,
                 'only_with_salary' => true,
-                'area' => 113,
+                'area' => $this->area,
                 'currency' => 'RUR',
             ],
             'pagination' => [

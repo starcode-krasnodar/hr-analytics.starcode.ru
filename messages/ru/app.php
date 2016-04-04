@@ -18,11 +18,11 @@
  */
 return [
     'Email' => '',
-    'Enter vacancy name and press Enter' => 'Введите имя вакансии и нажмите Enter',
     'ID' => '',
     'Index' => '',
     'Linked {client} account.' => '',
     'Password Reset Token' => '',
+    'Select search area' => 'Выберите регион поиска',
     'Unable to link {client} account. There is another user using it.' => '',
     'Unable to link {client} account: {errors}' => '',
     'Unable to save user: {errors}' => '',
@@ -32,6 +32,7 @@ return [
     'Auth Key' => 'Ключ авторизации',
     'Average salary' => 'Средняя зарплата',
     'Created At' => 'Создан',
+    'Enter vacancy name and press Enter' => 'Введите имя вакансии и нажмите Enter',
     'Enter your search phrase and press Enter' => 'Введите поисковую фразу и нажмите Enter',
     'External URL' => 'Внешняя ссылка',
     'Home' => 'Главная',

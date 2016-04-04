@@ -8,17 +8,18 @@ use Exception;
 use Yii;
 use yii\authclient\Collection;
 use yii\base\Model;
-use yii\data\ArrayDataProvider;
 use yii\data\DataProviderInterface;
 
 class VacanciesSearchForm extends Model
 {
     public $query;
+    public $area;
 
     public function rules()
     {
         return [
             ['query', 'string'],
+            ['area', 'integer'],
         ];
     }
 
@@ -26,6 +27,7 @@ class VacanciesSearchForm extends Model
     {
         return [
             'query' => Yii::t('app', 'Enter your search phrase and press Enter'),
+            'area' => \Yii::t('app', 'Select search area'),
         ];
     }
 

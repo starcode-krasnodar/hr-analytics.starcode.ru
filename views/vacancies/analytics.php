@@ -13,6 +13,7 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
 
 <?php $form = \yii\widgets\ActiveForm::begin(['method' => 'GET']) ?>
     <?= $form->field($model, 'query')->label(false)->textInput(['autofocus' => true, 'placeholder' => $model->getAttributeLabel('query')]) ?>
+    <?= $form->field($model, 'area')->label(false)->widget(\app\widgets\AreaSelect2\Widget::className()) ?>
 <?php $form->end() ?>
 
 <ul class="list-group">

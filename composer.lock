@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "2da5488ad323367f726f7fa5988f8018",
-    "content-hash": "afe5c561957e18e5c0952d64a96ca512",
+    "hash": "672f4e0b8b9fdc3d510745c4b876abce",
+    "content-hash": "c3459d5b754748860064de5339c1c9d8",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -213,6 +213,29 @@
                     "package.json"
                 ]
             }
+        },
+        {
+            "name": "bower-asset/select2",
+            "version": "4.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/select2/select2.git",
+                "reference": "622a619d25358b86a93c2335f88e1884acc9ccb8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/select2/select2/zipball/622a619d25358b86a93c2335f88e1884acc9ccb8",
+                "reference": "622a619d25358b86a93c2335f88e1884acc9ccb8",
+                "shasum": ""
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": [
+                    "dist/js/select2.js",
+                    "src/scss/core.scss"
+                ]
+            },
+            "description": "Select2 is a jQuery based replacement for select boxes. It supports searching, remote data sets, and infinite scrolling of results."
         },
         {
             "name": "bower-asset/yii2-pjax",
