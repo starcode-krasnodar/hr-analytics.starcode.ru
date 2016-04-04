@@ -16,6 +16,7 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
 <?php $form = \yii\widgets\ActiveForm::begin(['method' => 'GET']) ?>
     <?= $form->field($model, 'query')->label(false)->textInput(['autofocus' => true, 'placeholder' => $model->getAttributeLabel('query')]) ?>
     <?= $form->field($model, 'area')->label(false)->widget(\app\widgets\AreaSelect2\Widget::className()) ?>
+    <?= $form->field($model, 'industry')->label(false)->widget(\app\widgets\IndustrySelect2\Widget::className()) ?>
 
     <div class="form-group">
         <?= \yii\helpers\Html::submitInput(Yii::t('app', 'Submit'), ['class' => 'btn btn-primary']) ?>

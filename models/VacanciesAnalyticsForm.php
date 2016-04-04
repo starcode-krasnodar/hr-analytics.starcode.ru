@@ -13,6 +13,7 @@ class VacanciesAnalyticsForm extends Model
 
     public $query;
     public $area;
+    public $industry;
 
     protected $_totalCount;
     protected $_totalCountWithSalary;
@@ -25,7 +26,7 @@ class VacanciesAnalyticsForm extends Model
     {
         return [
             ['query', 'string'],
-            ['area', 'integer'],
+            [['area', 'industry'], 'integer'],
         ];
     }
 
@@ -34,6 +35,7 @@ class VacanciesAnalyticsForm extends Model
         return [
             'query' => \Yii::t('app', 'Enter vacancy name and press Enter'),
             'area' => \Yii::t('app', 'Select search area'),
+            'industry' => \Yii::t('app', 'Select industry of the company'),
         ];
     }
 
@@ -46,6 +48,7 @@ class VacanciesAnalyticsForm extends Model
             'params' => [
                 'text' => $this->query,
                 'area' => $this->area,
+                'industry' => $this->industry,
                 'currency' => 'RUR',
             ],
             'pagination' => [

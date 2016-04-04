@@ -1,5 +1,5 @@
 (function ($) {
-    var $select2 = $('.js-area-select2');
+    var $select2 = $('.js-industry-select2');
 
     $(function () {
         $select2.select2({
