@@ -24,36 +24,38 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
     </div>
 <?php $form->end() ?>
 
-<ul class="list-group">
-    <li class="list-group-item">
-        <span class="badge"><?= $totalCount ?></span>
-        <?= Yii::t('app', 'The total number of vacancies') ?>
-        <?= \yii\helpers\Html::a(Yii::t('app', 'detail'), ['/vacancies/search', (new \app\models\VacanciesSearchForm())->formName() => ['query' => $model->query, 'area' => $model->area, 'industry' => $model->industry]]) ?>
-    </li>
-    <li class="list-group-item">
-        <span class="badge"><?= $totalCountWithSalary ?></span>
-        <?= Yii::t('app', 'The number of jobs with the specified salary') ?>
-    </li>
-    <li class="list-group-item">
-        <span class="badge"><?= round($totalCountWithSalaryPercent) ?> %</span>
-        <?= Yii::t('app', 'The number of jobs with the specified salary percentage') ?>
-    </li>
-    <?php if (!empty($salaryMax)): ?>
+<?php if ($totalCount !== null): ?>
+    <ul class="list-group">
         <li class="list-group-item">
-            <span class="badge"><?= Yii::$app->formatter->asCurrency($salaryMax, 'RUB') ?></span>
-            <?= Yii::t('app', 'Max salary') ?>
+            <span class="badge"><?= $totalCount ?></span>
+            <?= Yii::t('app', 'The total number of vacancies') ?>
+            <?= \yii\helpers\Html::a(Yii::t('app', 'detail'), ['/vacancies/search', (new \app\models\VacanciesSearchForm())->formName() => ['query' => $model->query, 'area' => $model->area, 'industry' => $model->industry]]) ?>
         </li>
-    <?php endif ?>
-    <?php if (!empty($salaryMin)): ?>
         <li class="list-group-item">
-            <span class="badge"><?= Yii::$app->formatter->asCurrency($salaryMin, 'RUB') ?></span>
-            <?= Yii::t('app', 'Min salary') ?>
+            <span class="badge"><?= $totalCountWithSalary ?></span>
+            <?= Yii::t('app', 'The number of jobs with the specified salary') ?>
         </li>
-    <?php endif ?>
-    <?php if (!empty($salaryAverage)): ?>
         <li class="list-group-item">
-            <span class="badge"><?= Yii::$app->formatter->asCurrency($salaryAverage, 'RUB') ?></span>
-            <?= Yii::t('app', 'Average salary') ?>
+            <span class="badge"><?= round($totalCountWithSalaryPercent) ?> %</span>
+            <?= Yii::t('app', 'The number of jobs with the specified salary percentage') ?>
         </li>
-    <?php endif ?>
-</ul>
+        <?php if (!empty($salaryMax)): ?>
+            <li class="list-group-item">
+                <span class="badge"><?= Yii::$app->formatter->asCurrency($salaryMax, 'RUB') ?></span>
+                <?= Yii::t('app', 'Max salary') ?>
+            </li>
+        <?php endif ?>
+        <?php if (!empty($salaryMin)): ?>
+            <li class="list-group-item">
+                <span class="badge"><?= Yii::$app->formatter->asCurrency($salaryMin, 'RUB') ?></span>
+                <?= Yii::t('app', 'Min salary') ?>
+            </li>
+        <?php endif ?>
+        <?php if (!empty($salaryAverage)): ?>
+            <li class="list-group-item">
+                <span class="badge"><?= Yii::$app->formatter->asCurrency($salaryAverage, 'RUB') ?></span>
+                <?= Yii::t('app', 'Average salary') ?>
+            </li>
+        <?php endif ?>
+    </ul>
+<?php endif ?>

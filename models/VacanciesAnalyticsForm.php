@@ -48,7 +48,7 @@ class VacanciesAnalyticsForm extends Model
             'params' => [
                 'text' => $this->query,
                 'area' => $this->area,
-                'industry' => $this->industry,
+                'industry' => empty($this->industry) ? null : $this->industry,
                 'currency' => 'RUR',
             ],
             'pagination' => [
