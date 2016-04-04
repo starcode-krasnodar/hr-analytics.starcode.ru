@@ -39,6 +39,23 @@ class VacanciesAnalyticsForm extends Model
         ];
     }
 
+    public function employmentLabels()
+    {
+        return [
+            'full' => \Yii::t('app.employment', 'Full employment'),
+            'part' => \Yii::t('app.employment', 'Part-time employment'),
+            'project' => \Yii::t('app.employment', 'Project work'),
+            'volunteer' => \Yii::t('app.employment', 'Volunteer'),
+            'probation' => \Yii::t('app.employment', 'Probation'),
+        ];
+    }
+
+    public function getEmploymentLabel($employment)
+    {
+        $employmentLabels = $this->employmentLabels();
+        return isset($employmentLabels[$employment]) ? $employmentLabels[$employment] : ucfirst($employment);
+    }
+
     public function process()
     {
         $allModels = [];
@@ -102,6 +119,7 @@ class VacanciesAnalyticsForm extends Model
                 'params' => [
                     'text' => $this->query,
                     'area' => $this->area,
+                    'industry' => $this->industry,
                     'currency' => 'RUR',
                     'employment' => $employment,
                 ],
@@ -187,8 +205,8 @@ class VacanciesAnalyticsForm extends Model
         return $percentage * 100;
     }
 
-    public function getEmploymentCount($employment)
+    public function getEmploymentCount()
     {
-        return isset($this->_employmentCount[$employment]) ? $this->_employmentCount[$employment] : null;
+        return $this->_employmentCount;
     }
 }

@@ -18,11 +18,12 @@
  */
 return [
     'Email' => '',
+    'Employment' => '',
     'ID' => '',
     'Index' => '',
+    'Indicators' => '',
     'Linked {client} account.' => '',
     'Password Reset Token' => '',
-    'Select industry of the company' => 'Выберите отрасль компании',
     'Unable to link {client} account. There is another user using it.' => '',
     'Unable to link {client} account: {errors}' => '',
     'Unable to save user: {errors}' => '',
@@ -51,6 +52,7 @@ return [
     'Resumes' => 'Резюме',
     'Salary' => 'Зарплата',
     'Search' => 'Поиск',
+    'Select industry of the company' => 'Выберите отрасль компании',
     'Select search area' => 'Выберите регион поиска',
     'Sign in' => 'Вход',
     'Sign in to your account' => 'Войти в аккаунт',

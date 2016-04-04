@@ -45,6 +45,7 @@ class VacanciesController extends Controller
             'salaryMax' => $analyticsModel->getSalaryMax(),
             'salaryMin' => $analyticsModel->getSalaryMin(),
             'salaryAverage' => $analyticsModel->getSalaryAverage(),
+            'employmentCount' => $analyticsModel->getEmploymentCount(),
         ]);
     }
 

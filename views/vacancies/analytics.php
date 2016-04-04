@@ -8,6 +8,7 @@
 /* @var $salaryAverage int */
 /* @var $salaryMax int */
 /* @var $salaryMin int */
+/* @var $employmentCount array */
 
 $this->title = Yii::t('app', 'Analytics');
 $this->params['breadcrumbs'][] = ['label' => $this->title];
@@ -26,6 +27,7 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
 
 <?php if ($totalCount !== null): ?>
     <ul class="list-group">
+        <li class="list-group-item disabled"><?= Yii::t('app', 'Indicators') ?></li>
         <li class="list-group-item">
             <span class="badge"><?= $totalCount ?></span>
             <?= Yii::t('app', 'The total number of vacancies') ?>
@@ -57,5 +59,14 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
                 <?= Yii::t('app', 'Average salary') ?>
             </li>
         <?php endif ?>
+    </ul>
+    <ul class="list-group">
+        <li class="list-group-item disabled"><?= Yii::t('app', 'Employment') ?></li>
+        <?php foreach ($employmentCount as $employment => $count): ?>
+        <li class="list-group-item">
+            <span class="badge"><?= $count ?></span>
+            <?= $model->getEmploymentLabel($employment) ?>
+        </li>
+        <?php endforeach; ?>
     </ul>
 <?php endif ?>
