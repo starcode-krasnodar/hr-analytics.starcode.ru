@@ -19,6 +19,7 @@ class VacanciesAnalyticsForm extends Model
     protected $_salaryAverage;
     protected $_salaryMax;
     protected $_salaryMin;
+    protected $_employmentCount = [];
 
     public function rules()
     {
@@ -85,6 +86,31 @@ class VacanciesAnalyticsForm extends Model
 
         $this->_totalCount = count($allModels);
         $this->_salaryAverage = round($salarySum / $this->_totalCount);
+
+        // employment
+        $employments = [
+            'full', 'part', 'project', 'volunteer', 'probation',
+        ];
+
+        foreach ($employments as $employment) {
+            $page = 0;
+
+            $dataProvider = new VacanciesDataProvider([
+                'params' => [
+                    'text' => $this->query,
+                    'area' => $this->area,
+                    'currency' => 'RUR',
+                    'employment' => $employment,
+                ],
+                'pagination' => [
+                    'page' => $page,
+                    'pageSize' => self::PAGE_SIZE,
+                ],
+            ]);
+
+            $dataProvider->prepare(true);
+            $this->_employmentCount[$employment] = $dataProvider->getTotalCount();
+        }
     }
 
     protected function reduceSalaryMax($carry, $item)
@@ -156,5 +182,10 @@ class VacanciesAnalyticsForm extends Model
     {
         $percentage = $this->_totalCount == 0 ? 0 : ($this->_totalCountWithSalary / $this->_totalCount);
         return $percentage * 100;
+    }
+
+    public function getEmploymentCount($employment)
+    {
+        return isset($this->_employmentCount[$employment]) ? $this->_employmentCount[$employment] : null;
     }
 }
