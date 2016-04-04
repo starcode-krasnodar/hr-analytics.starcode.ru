@@ -3,14 +3,12 @@
 namespace app\models;
 
 use app\components\data\VacanciesDataProvider;
-use yii\authclient\InvalidResponseException;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
 
 class VacanciesAnalyticsForm extends Model
 {
     const MAX_PAGE = 19;
-//    const MAX_PAGE = 2;
     const PAGE_SIZE = 100;
 
     public $query;
@@ -37,7 +35,7 @@ class VacanciesAnalyticsForm extends Model
     public function process()
     {
         $allModels = [];
-        $page = 1;
+        $page = 0;
 
         $dataProvider = new VacanciesDataProvider([
             'params' => [
