@@ -12,6 +12,11 @@ $this->title = Yii::t('app', 'Vacancies search');
         <?php $form = \yii\widgets\ActiveForm::begin(['method' => 'get']) ?>
             <?= $form->field($searchModel, 'query')->label(false)->textInput(['autofocus' => true, 'placeholder' => $searchModel->getAttributeLabel('query')]) ?>
             <?= $form->field($searchModel, 'area')->label(false)->widget(\app\widgets\AreaSelect2\Widget::className()) ?>
+
+            <div class="form-group">
+                <?= \yii\helpers\Html::submitInput(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>
+                <?= \yii\helpers\Html::a(Yii::t('app', 'Reset'), ['/vacancies/search'], ['class' => 'btn btn-danger']) ?>
+            </div>
         <?php $form->end() ?>
     </div>
 </div>
