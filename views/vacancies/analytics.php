@@ -34,7 +34,14 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
         <li class="list-group-item">
             <span class="badge"><?= $totalCount ?></span>
             <?= Yii::t('app', 'The total number of vacancies') ?>
-            <?= \yii\helpers\Html::a(Yii::t('app', 'detail'), ['/vacancies/search', (new \app\models\VacanciesSearchForm())->formName() => ['query' => $model->query, 'area' => $model->area, 'industry' => $model->industry]]) ?>
+            <?= \yii\helpers\Html::a(Yii::t('app', 'detail'), [
+                '/vacancies/search',
+                (new \app\models\VacanciesSearchForm())->formName() => [
+                    'query' => $model->query,
+                    'area' => $model->area,
+                    'industry' => $model->industry,
+                ],
+            ], ['target' => '_blank']) ?>
         </li>
         <li class="list-group-item">
             <span class="badge"><?= $totalCountWithSalary ?></span>

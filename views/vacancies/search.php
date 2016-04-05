@@ -66,7 +66,9 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
                 [
                     'label' => Yii::t('app', 'External URL'),
                     'attribute' => 'alternate_url',
-                    'format' => 'url',
+                    'content' => function($model) {
+                        return \yii\helpers\Html::a($model['alternate_url'], $model['alternate_url'], ['target' => '_blank']);
+                    }
                 ],
             ],
         ]) ?>
