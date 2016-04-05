@@ -78,7 +78,14 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
                         'data' => [
                             'toggle' => 'popover',
                             'trigger' => 'focus',
-                            'content' => Yii::t('app', 'The calculation uses the sum of the salaries of all vacancies divided by the number of jobs with the specified salary.'),
+                            'html' => true,
+//                            'content' => Yii::t('app', 'The calculation uses the sum of the salaries of all vacancies divided by the number of jobs with the specified salary.'),
+                            'content' => '<p>Рассчитывается по формуле</p> 
+                                <p><b>х = а/b</b>,</p> 
+                                <p>где <b>а</b> - сумма зарплат по всем вакансиям*, <b>b</b> - количество вакансий с указанными зарплатами.</p> 
+                                <hr />
+                                <p>* Если в вакансии указан диапазон по зарплате, то зарплата по вакансии считается как среднее <b>(мин+макс)/2</b>.
+Если в вакансии указан только нижняя граница зп, то она берется и  в качестве зп по вакансии.</p>',
                         ]
                     ],
                 ]) ?>
