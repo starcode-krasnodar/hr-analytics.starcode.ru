@@ -21,6 +21,7 @@ class VacanciesAnalyticsForm extends Model
     protected $_salaryMax;
     protected $_salaryMin;
     protected $_employmentCount = [];
+    protected $_scheduleCount = [];
 
     public function rules()
     {
@@ -50,10 +51,27 @@ class VacanciesAnalyticsForm extends Model
         ];
     }
 
+    public function scheduleLabels()
+    {
+        return [
+            'fullDay' => \Yii::t('app.schedule', 'Full day'),
+            'shift' => \Yii::t('app.schedule', 'Shift work'),
+            'flexible' => \Yii::t('app.schedule', 'Flexible work'),
+            'remote' => \Yii::t('app.schedule', 'Remote work'),
+            'flyInFlyOut' => \Yii::t('app.schedule', 'Fly in fly out'),
+        ];
+    }
+
     public function getEmploymentLabel($employment)
     {
         $employmentLabels = $this->employmentLabels();
         return isset($employmentLabels[$employment]) ? $employmentLabels[$employment] : ucfirst($employment);
+    }
+
+    public function getScheduleLabel($schedule)
+    {
+        $scheduleLabels = $this->scheduleLabels();
+        return isset($scheduleLabels[$schedule]) ? $scheduleLabels[$schedule] : ucfirst($schedule);
     }
 
     public function process()
@@ -132,7 +150,31 @@ class VacanciesAnalyticsForm extends Model
             $this->_employmentCount[$employment] = $dataProvider->getTotalCount();
         }
 
-        ksort($this->_employmentCount);
+        arsort($this->_employmentCount);
+        unset($params['employment']);
+
+        // schedule
+        $schedules = [
+            'fullDay', 'shift', 'flexible', 'remote', 'flyInFlyOut',
+        ];
+
+        foreach ($schedules as $schedule) {
+            $page = 0;
+            $params['schedule'] = $schedule;
+
+            $dataProvider = new VacanciesDataProvider([
+                'params' => $params,
+                'pagination' => [
+                    'page' => $page,
+                    'pageSize' => self::PAGE_SIZE,
+                ],
+            ]);
+
+            $dataProvider->prepare(true);
+            $this->_scheduleCount[$schedule] = $dataProvider->getTotalCount();
+        }
+
+        arsort($this->_scheduleCount);
     }
 
     protected function reduceSalaryMax($carry, $item)
@@ -221,5 +263,25 @@ class VacanciesAnalyticsForm extends Model
             $percentage = $totalCount == 0 ? 0 : ($count / $totalCount);
             return $percentage * 100;
         }, $this->_employmentCount);
+    }
+
+    /**
+     * @return array
+     */
+    public function getScheduleCount()
+    {
+        return $this->_scheduleCount;
+    }
+
+    /**
+     * @return array
+     */
+    public function getScheduleCountPercent()
+    {
+        $totalCount = $this->getTotalCount();
+        return array_map(function($count) use ($totalCount) {
+            $percentage = $totalCount == 0 ? 0 : ($count / $totalCount);
+            return $percentage * 100;
+        }, $this->_scheduleCount);
     }
 }

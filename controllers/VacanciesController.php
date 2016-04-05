@@ -42,6 +42,8 @@ class VacanciesController extends Controller
             'salaryAverage' => $analyticsModel->getSalaryAverage(),
             'employmentCount' => $analyticsModel->getEmploymentCount(),
             'employmentCountPercent' => $analyticsModel->getEmploymentCountPercent(),
+            'scheduleCount' => $analyticsModel->getScheduleCount(),
+            'scheduleCountPercent' => $analyticsModel->getScheduleCountPercent(),
         ]);
     }
 

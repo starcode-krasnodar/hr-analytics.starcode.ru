@@ -10,6 +10,8 @@
 /* @var $salaryMin int */
 /* @var $employmentCount array */
 /* @var $employmentCountPercent array */
+/* @var $scheduleCount array */
+/* @var $scheduleCountPercent array */
 
 $this->title = Yii::t('app', 'Analytics');
 $this->params['breadcrumbs'][] = ['label' => $this->title];
@@ -67,6 +69,15 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
         <li class="list-group-item">
             <span class="badge"><?= round($employmentCountPercent[$employment]) ?> %</span>
             <?= $model->getEmploymentLabel($employment) ?>
+        </li>
+        <?php endforeach; ?>
+    </ul>
+    <ul class="list-group">
+        <li class="list-group-item disabled"><?= Yii::t('app', 'Schedule') ?></li>
+        <?php foreach ($scheduleCount as $schedule => $count): ?>
+        <li class="list-group-item">
+            <span class="badge"><?= round($scheduleCountPercent[$schedule]) ?> %</span>
+            <?= $model->getScheduleLabel($schedule) ?>
         </li>
         <?php endforeach; ?>
     </ul>
