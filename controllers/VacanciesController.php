@@ -17,7 +17,7 @@ class VacanciesController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index', 'analytics', 'search'],
+                        'actions' => ['analytics', 'search'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -25,12 +25,7 @@ class VacanciesController extends Controller
             ],
         ];
     }
-
-    public function actionIndex()
-    {
-        return $this->render('index');
-    }
-
+    
     public function actionAnalytics()
     {
         $analyticsModel = new VacanciesAnalyticsForm();
