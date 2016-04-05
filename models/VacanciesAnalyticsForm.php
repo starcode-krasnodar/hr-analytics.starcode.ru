@@ -82,6 +82,7 @@ class VacanciesAnalyticsForm extends Model
         $params = [
             'text' => $this->query,
             'area' => $this->area,
+            'search_field' => ['name', 'description'],
             'currency' => 'RUR',
         ];
         if (!empty($this->industry)) {

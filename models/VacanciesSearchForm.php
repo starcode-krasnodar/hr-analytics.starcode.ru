@@ -42,6 +42,7 @@ class VacanciesSearchForm extends Model
                 'text' => $this->query,
                 'area' => $this->area,
                 'industry' => empty($this->industry) ? null : $this->industry,
+                'search_field' => ['name', 'description'],
             ],
         ]);
     }
