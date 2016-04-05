@@ -69,5 +69,5 @@ return [
     'Vacancies' => 'Вакансии',
     'Vacancies search' => 'Поиск вакансий',
     'Vacancy Name' => 'Название вакансии',
-    'detail' => 'подробне',
+    'detail' => 'подробнее',
 ];
