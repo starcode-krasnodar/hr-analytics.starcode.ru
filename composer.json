@@ -20,7 +20,8 @@
         "yiisoft/yii2-swiftmailer": "*",
         "yiisoft/yii2-authclient": "^2.0",
         "bower-asset/bootswatch": "*",
-        "bower-asset/select2": "^4.0"
+        "bower-asset/select2": "^4.0",
+        "rmrevin/yii2-fontawesome": "2.10.*"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

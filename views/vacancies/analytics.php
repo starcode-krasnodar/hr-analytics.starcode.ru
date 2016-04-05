@@ -1,6 +1,8 @@
 <?php
 
 /* @var $this \yii\web\View */
+use rmrevin\yii\fontawesome\FA;
+
 /* @var $model \app\models\VacanciesAnalyticsForm */
 /* @var $totalCount int */
 /* @var $totalCountWithSalary int */
@@ -30,7 +32,7 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
 
 <?php if ($totalCount !== null): ?>
     <ul class="list-group">
-        <li class="list-group-item disabled"><?= Yii::t('app', 'Indicators') ?></li>
+        <li class="list-group-item disabled"><?= FA::icon(FA::_BAR_CHART_O, ['class' => 'fa-fw']) ?> <?= Yii::t('app', 'Indicators') ?></li>
         <li class="list-group-item">
             <span class="badge"><?= $totalCount ?></span>
             <?= Yii::t('app', 'The total number of vacancies') ?>
@@ -68,7 +70,8 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
                 <span class="badge"><?= Yii::$app->formatter->asCurrency($salaryAverage, 'RUB') ?></span>
                 <?= Yii::t('app', 'Average salary') ?>
                 <?= \yii\bootstrap\Button::widget([
-                    'label' => Yii::t('app', 'How to calculate?'),
+                    'label' => FA::icon(FA::_QUESTION_CIRCLE)->__toString(),
+                    'encodeLabel' => false,
                     'options' => [
                         'class' => 'btn btn-primary btn-xs',
                         'title' => Yii::t('app', 'How to calculate?'),
@@ -83,7 +86,7 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
         <?php endif ?>
     </ul>
     <ul class="list-group">
-        <li class="list-group-item disabled"><?= Yii::t('app', 'Employment') ?></li>
+        <li class="list-group-item disabled"><?= FA::icon(FA::_SUITCASE, ['class' => 'fa-fw']) ?> <?= Yii::t('app', 'Employment') ?></li>
         <?php foreach ($employmentCount as $employment => $count): ?>
         <li class="list-group-item">
             <span class="badge"><?= round($employmentCountPercent[$employment]) ?> %</span>
@@ -92,7 +95,7 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
         <?php endforeach; ?>
     </ul>
     <ul class="list-group">
-        <li class="list-group-item disabled"><?= Yii::t('app', 'Schedule') ?></li>
+        <li class="list-group-item disabled"><?= FA::icon(FA::_CLOCK_O, ['class' => 'fa-fw']) ?> <?= Yii::t('app', 'Schedule') ?></li>
         <?php foreach ($scheduleCount as $schedule => $count): ?>
         <li class="list-group-item">
             <span class="badge"><?= round($scheduleCountPercent[$schedule]) ?> %</span>
