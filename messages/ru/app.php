@@ -18,10 +18,10 @@
  */
 return [
     'Email' => '',
-    'Employment' => '',
+    'Employment' => 'Занятность',
     'ID' => '',
     'Index' => '',
-    'Indicators' => '',
+    'Indicators' => 'Показатели',
     'Linked {client} account.' => '',
     'Password Reset Token' => '',
     'Unable to link {client} account. There is another user using it.' => '',

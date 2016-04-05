@@ -61,13 +61,17 @@ class VacanciesAnalyticsForm extends Model
         $allModels = [];
         $page = 0;
 
+        $params = [
+            'text' => $this->query,
+            'area' => $this->area,
+            'currency' => 'RUR',
+        ];
+        if (!empty($this->industry)) {
+            $params['industry'] = $this->industry;
+        }
+
         $dataProvider = new VacanciesDataProvider([
-            'params' => [
-                'text' => $this->query,
-                'area' => $this->area,
-                'industry' => empty($this->industry) ? null : $this->industry,
-                'currency' => 'RUR',
-            ],
+            'params' => $params,
             'pagination' => [
                 'page' => $page,
                 'pageSize' => self::PAGE_SIZE,
@@ -114,15 +118,10 @@ class VacanciesAnalyticsForm extends Model
 
         foreach ($employments as $employment) {
             $page = 0;
+            $params['employment'] = $employment;
 
             $dataProvider = new VacanciesDataProvider([
-                'params' => [
-                    'text' => $this->query,
-                    'area' => $this->area,
-                    'industry' => $this->industry,
-                    'currency' => 'RUR',
-                    'employment' => $employment,
-                ],
+                'params' => $params,
                 'pagination' => [
                     'page' => $page,
                     'pageSize' => self::PAGE_SIZE,
@@ -132,6 +131,8 @@ class VacanciesAnalyticsForm extends Model
             $dataProvider->prepare(true);
             $this->_employmentCount[$employment] = $dataProvider->getTotalCount();
         }
+
+        ksort($this->_employmentCount);
     }
 
     protected function reduceSalaryMax($carry, $item)
@@ -208,5 +209,17 @@ class VacanciesAnalyticsForm extends Model
     public function getEmploymentCount()
     {
         return $this->_employmentCount;
+    }
+
+    /**
+     * @return array
+     */
+    public function getEmploymentCountPercent()
+    {
+        $totalCount = $this->getTotalCount();
+        return array_map(function($count) use ($totalCount) {
+            $percentage = $totalCount == 0 ? 0 : ($count / $totalCount);
+            return $percentage * 100;
+        }, $this->_employmentCount);
     }
 }

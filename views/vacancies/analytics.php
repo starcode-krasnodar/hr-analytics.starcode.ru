@@ -9,6 +9,7 @@
 /* @var $salaryMax int */
 /* @var $salaryMin int */
 /* @var $employmentCount array */
+/* @var $employmentCountPercent array */
 
 $this->title = Yii::t('app', 'Analytics');
 $this->params['breadcrumbs'][] = ['label' => $this->title];
@@ -64,6 +65,7 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
         <li class="list-group-item disabled"><?= Yii::t('app', 'Employment') ?></li>
         <?php foreach ($employmentCount as $employment => $count): ?>
         <li class="list-group-item">
+            <span class="badge"><?= round($employmentCountPercent[$employment]) ?> %</span>
             <span class="badge"><?= $count ?></span>
             <?= $model->getEmploymentLabel($employment) ?>
         </li>
