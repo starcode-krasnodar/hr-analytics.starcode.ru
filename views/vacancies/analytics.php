@@ -67,6 +67,18 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
             <li class="list-group-item">
                 <span class="badge"><?= Yii::$app->formatter->asCurrency($salaryAverage, 'RUB') ?></span>
                 <?= Yii::t('app', 'Average salary') ?>
+                <?= \yii\bootstrap\Button::widget([
+                    'label' => Yii::t('app', 'How to calculate?'),
+                    'options' => [
+                        'class' => 'btn btn-primary btn-xs',
+                        'title' => Yii::t('app', 'How to calculate?'),
+                        'data' => [
+                            'toggle' => 'popover',
+                            'trigger' => 'focus',
+                            'content' => Yii::t('app', 'The calculation uses the sum of the salaries of all vacancies divided by the number of jobs with the specified salary.'),
+                        ]
+                    ],
+                ]) ?>
             </li>
         <?php endif ?>
     </ul>

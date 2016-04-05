@@ -18,10 +18,11 @@
  */
 return [
     'Email' => '',
+    'How to calculate?' => 'Как рассчитывается?',
     'ID' => '',
     'Linked {client} account.' => '',
     'Password Reset Token' => '',
-    'Schedule' => 'График работы',
+    'The calculation uses the sum of the salaries of all vacancies divided by the number of jobs with the specified salary.' => 'В рассчете используется сумма зарплат всех вакансий, деленная на количество вакансий с указанной зарплатой.',
     'Unable to link {client} account. There is another user using it.' => '',
     'Unable to link {client} account: {errors}' => '',
     'Unable to save user: {errors}' => '',
@@ -52,6 +53,7 @@ return [
     'Reset' => 'Сброс',
     'Resumes' => 'Резюме',
     'Salary' => 'Зарплата',
+    'Schedule' => 'График работы',
     'Search' => 'Поиск',
     'Select industry of the company' => 'Выберите отрасль компании',
     'Select search area' => 'Выберите регион поиска',
