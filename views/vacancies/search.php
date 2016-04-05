@@ -5,6 +5,7 @@
 /* @var $dataProvider \yii\data\DataProviderInterface */
 
 $this->title = Yii::t('app', 'Vacancies search');
+$this->params['breadcrumbs'][] = ['label' => $this->title];
 ?>
 
 <div class="row">
