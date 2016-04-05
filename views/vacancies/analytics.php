@@ -66,7 +66,6 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
         <?php foreach ($employmentCount as $employment => $count): ?>
         <li class="list-group-item">
             <span class="badge"><?= round($employmentCountPercent[$employment]) ?> %</span>
-            <span class="badge"><?= $count ?></span>
             <?= $model->getEmploymentLabel($employment) ?>
         </li>
         <?php endforeach; ?>
