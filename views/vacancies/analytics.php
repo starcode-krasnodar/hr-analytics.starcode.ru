@@ -49,22 +49,17 @@ $this->on(\yii\web\View::EVENT_BEGIN_PAGE, function() {
             ], ['target' => '_blank']) ?>
         </li>
         <li class="list-group-item">
-            <span class="badge"><?= round($totalCountWithSalaryPercent) ?> %</span>
-            <span class="badge"><?= $totalCountWithSalary ?></span>
+            <span class="badge"><?= $totalCountWithSalary ?> (<?= round($totalCountWithSalaryPercent) ?> %)</span>
             <?= Yii::t('app', 'The number of jobs with the specified salary') ?>
         </li>
-        <?php if (!empty($salaryMax)): ?>
-            <li class="list-group-item">
-                <span class="badge"><?= Yii::$app->formatter->asCurrency($salaryMax, 'RUB') ?></span>
-                <?= Yii::t('app', 'Max salary') ?>
-            </li>
-        <?php endif ?>
-        <?php if (!empty($salaryMin)): ?>
-            <li class="list-group-item">
-                <span class="badge"><?= Yii::$app->formatter->asCurrency($salaryMin, 'RUB') ?></span>
-                <?= Yii::t('app', 'Min salary') ?>
-            </li>
-        <?php endif ?>
+        <li class="list-group-item">
+            <span class="badge">
+                <?= Yii::$app->formatter->asCurrency($salaryMin, 'RUB') ?>
+                -
+                <?= Yii::$app->formatter->asCurrency($salaryMax, 'RUB') ?>
+            </span>
+            <?= Yii::t('app', 'Salaries range') ?>
+        </li>
         <?php if (!empty($salaryAverage)): ?>
             <li class="list-group-item">
                 <span class="badge"><?= Yii::$app->formatter->asCurrency($salaryAverage, 'RUB') ?></span>
