@@ -150,7 +150,7 @@ class VacanciesAnalyticsForm extends Model
         }, 0);
 
         $this->_totalCount = count($allModels);
-        $this->_salaryAverage = round($salarySum / $this->_totalCountWithSalary);
+        $this->_salaryAverage = $this->_totalCountWithSalary != 0 ? round($salarySum / $this->_totalCountWithSalary) : 0;
 
         // employment
         $employments = [

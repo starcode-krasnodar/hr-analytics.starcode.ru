@@ -34,7 +34,7 @@ $this->on(\yii\web\View::EVENT_BEGIN_PAGE, function() {
     </div>
 <?php $form->end() ?>
 
-<?php if ($totalCount !== null): ?>
+<?php if ($totalCount !== null && $totalCount !== 0): ?>
     <div class="row">
         <div class="col-sm-12">
             <div class="panel panel-default">
@@ -142,6 +142,16 @@ $this->on(\yii\web\View::EVENT_BEGIN_PAGE, function() {
                         <?php endforeach ?>
                         </tbody>
                     </table>
+                </div>
+            </div>
+        </div>
+    </div>
+<?php elseif ($totalCount === 0): ?>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <p class="text-muted"><?= Yii::t('app', 'Not found vacancies that match your search criteria') ?></p>
                 </div>
             </div>
         </div>
