@@ -34,59 +34,65 @@ $this->on(\yii\web\View::EVENT_BEGIN_PAGE, function() {
 <?php $form->end() ?>
 
 <?php if ($totalCount !== null): ?>
-    <ul class="list-group">
-        <li class="list-group-item disabled"><?= FA::icon(FA::_BAR_CHART_O, ['class' => 'fa-fw']) ?> <?= Yii::t('app', 'Indicators') ?></li>
-        <li class="list-group-item">
-            <span class="badge"><?= $totalCount ?></span>
-            <?= Yii::t('app', 'The total number of vacancies') ?>
-            <?= \yii\helpers\Html::a(Yii::t('app', 'detail'), [
-                '/vacancies/search',
-                (new \app\models\VacanciesSearchForm())->formName() => [
-                    'query' => $model->query,
-                    'area' => $model->area,
-                    'industry' => $model->industry,
-                ],
-            ], ['target' => '_blank']) ?>
-        </li>
-        <li class="list-group-item">
-            <span class="badge"><?= $totalCountWithSalary ?> (<?= round($totalCountWithSalaryPercent) ?> %)</span>
-            <?= Yii::t('app', 'The number of jobs with the specified salary') ?>
-        </li>
-        <li class="list-group-item">
-            <span class="badge">
-                <?= Yii::$app->formatter->asCurrency($salaryMin, 'RUB') ?>
-                -
-                <?= Yii::$app->formatter->asCurrency($salaryMax, 'RUB') ?>
-            </span>
-            <?= Yii::t('app', 'Salaries range') ?>
-        </li>
-        <?php if (!empty($salaryAverage)): ?>
-            <li class="list-group-item">
-                <span class="badge"><?= Yii::$app->formatter->asCurrency($salaryAverage, 'RUB') ?></span>
-                <?= Yii::t('app', 'Average salary') ?>
-                <?= \yii\bootstrap\Button::widget([
-                    'label' => FA::icon(FA::_QUESTION_CIRCLE)->__toString(),
-                    'encodeLabel' => false,
-                    'options' => [
-                        'class' => 'btn btn-primary btn-xs',
-                        'title' => Yii::t('app', 'How to calculate?'),
-                        'data' => [
-                            'toggle' => 'popover',
-                            'trigger' => 'focus',
-                            'html' => true,
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading"><?= FA::icon(FA::_BAR_CHART_O, ['class' => 'fa-fw']) ?> <?= Yii::t('app', 'Indicators') ?></div>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <span class="badge"><?= $totalCount ?></span>
+                        <?= Yii::t('app', 'The total number of vacancies') ?>
+                        <?= \yii\helpers\Html::a(Yii::t('app', 'detail'), [
+                            '/vacancies/search',
+                            (new \app\models\VacanciesSearchForm())->formName() => [
+                                'query' => $model->query,
+                                'area' => $model->area,
+                                'industry' => $model->industry,
+                            ],
+                        ], ['target' => '_blank']) ?>
+                    </li>
+                    <li class="list-group-item">
+                        <span class="badge"><?= $totalCountWithSalary ?> (<?= round($totalCountWithSalaryPercent) ?> %)</span>
+                        <?= Yii::t('app', 'The number of jobs with the specified salary') ?>
+                    </li>
+                    <li class="list-group-item">
+                        <span class="badge">
+                            <?= Yii::$app->formatter->asCurrency($salaryMin, 'RUB') ?>
+                            -
+                            <?= Yii::$app->formatter->asCurrency($salaryMax, 'RUB') ?>
+                        </span>
+                        <?= Yii::t('app', 'Salaries range') ?>
+                    </li>
+                    <?php if (!empty($salaryAverage)): ?>
+                        <li class="list-group-item">
+                            <span class="badge"><?= Yii::$app->formatter->asCurrency($salaryAverage, 'RUB') ?></span>
+                            <?= Yii::t('app', 'Average salary') ?>
+                            <?= \yii\bootstrap\Button::widget([
+                                'label' => FA::icon(FA::_QUESTION_CIRCLE)->__toString(),
+                                'encodeLabel' => false,
+                                'options' => [
+                                    'class' => 'btn btn-primary btn-xs',
+                                    'title' => Yii::t('app', 'How to calculate?'),
+                                    'data' => [
+                                        'toggle' => 'popover',
+                                        'trigger' => 'focus',
+                                        'html' => true,
 //                            'content' => Yii::t('app', 'The calculation uses the sum of the salaries of all vacancies divided by the number of jobs with the specified salary.'),
-                            'content' => '<p>Рассчитывается по формуле</p> 
+                                        'content' => '<p>Рассчитывается по формуле</p> 
                                 <p><b>х = а/b</b>,</p> 
                                 <p>где <b>а</b> - сумма зарплат по всем вакансиям*, <b>b</b> - количество вакансий с указанными зарплатами.</p> 
                                 <hr />
                                 <p>* Если в вакансии указан диапазон по зарплате, то зарплата по вакансии считается как среднее <b>(мин+макс)/2</b>.
 Если в вакансии указан только нижняя граница зп, то она берется и  в качестве зп по вакансии.</p>',
-                        ]
-                    ],
-                ]) ?>
-            </li>
-        <?php endif ?>
-    </ul>
+                                    ]
+                                ],
+                            ]) ?>
+                        </li>
+                    <?php endif ?>
+                </ul>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-sm-6">
             <div class="panel panel-default">
