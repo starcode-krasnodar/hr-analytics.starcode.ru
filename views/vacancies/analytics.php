@@ -23,7 +23,8 @@ $this->on(\yii\web\View::EVENT_BEGIN_PAGE, function() {
 ?>
 
 <?php $form = \yii\widgets\ActiveForm::begin(['method' => 'GET']) ?>
-    <?= $form->field($model, 'query')->label(false)->textInput(['autofocus' => true, 'placeholder' => $model->getAttributeLabel('query')]) ?>
+    <?= $form->field($model, 'queryName')->label(false)->textInput(['autofocus' => true, 'placeholder' => $model->getAttributeLabel('queryName')]) ?>
+    <?= $form->field($model, 'queryDescription')->label(false)->textInput(['placeholder' => $model->getAttributeLabel('queryDescription')]) ?>
     <?= $form->field($model, 'area')->label(false)->widget(\app\widgets\AreaSelect2\Widget::className()) ?>
     <?= $form->field($model, 'industry')->label(false)->widget(\app\widgets\IndustrySelect2\Widget::className()) ?>
 
@@ -45,7 +46,9 @@ $this->on(\yii\web\View::EVENT_BEGIN_PAGE, function() {
                         <?= \yii\helpers\Html::a(Yii::t('app', 'detail'), [
                             '/vacancies/search',
                             (new \app\models\VacanciesSearchForm())->formName() => [
-                                'query' => $model->query,
+                                'queryName' => $model->queryName,
+                                'queryDescription' => $model->queryDescription,
+                                'queryOperator' => $model->queryOperator,
                                 'area' => $model->area,
                                 'industry' => $model->industry,
                             ],

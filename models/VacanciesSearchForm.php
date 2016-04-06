@@ -11,22 +11,30 @@ use yii\data\DataProviderInterface;
 
 class VacanciesSearchForm extends Model
 {
-    public $query;
+    const QUERY_OPERATOR_OR = 'OR';
+    const QUERY_OPERATOR_AND = 'AND';
+
+    public $queryName;
+    public $queryDescription;
+    public $queryOperator;
     public $area;
     public $industry;
 
     public function rules()
     {
         return [
-            ['query', 'string'],
+            [['queryName', 'queryDescription'], 'string'],
             [['area', 'industry'], 'integer'],
+            [['queryOperator'], 'default', 'value' => self::QUERY_OPERATOR_AND, 'isEmpty' => true],
+            [['queryOperator'], 'in', 'range' => [self::QUERY_OPERATOR_AND, self::QUERY_OPERATOR_OR]],
         ];
     }
 
     public function attributeLabels()
     {
         return [
-            'query' => \Yii::t('app', 'Enter your search phrase and press Enter'),
+            'queryName' => \Yii::t('app', 'Search by name of vacancy'),
+            'queryDescription' => \Yii::t('app', 'Search by description of vacancy'),
             'area' => \Yii::t('app', 'Select search area'),
             'industry' => \Yii::t('app', 'Select industry of the company'),
         ];
@@ -37,13 +45,29 @@ class VacanciesSearchForm extends Model
      */
     public function search()
     {
+        $params = [
+            'area' => $this->area,
+            'industry' => empty($this->industry) ? null : $this->industry,
+            'search_field' => ['name', 'description'],
+        ];
+
+        // @see https://krasnodar.hh.ru/article/1175#simple-search
+        $queryOperator = empty($this->queryOperator) ? self::QUERY_OPERATOR_AND : $this->queryOperator;
+        if (!empty($this->queryName) && !empty($this->queryDescription)) {
+            $params['text'] = implode(' ' . $queryOperator . ' ', [
+                'NAME:("' . str_replace(',', '" ' . $queryOperator . ' "', $this->queryName) . '")',
+                'DESCRIPTION:("' . str_replace(',', '" ' . $queryOperator . ' "', $this->queryDescription) . '")',
+            ]);
+        } elseif (!empty($this->queryName)) {
+            $params['text'] = 'NAME:("' . str_replace(',', '" ' . $queryOperator . ' "', $this->queryName) . '")';
+        } elseif (!empty($this->queryDescription)) {
+            $params['text'] = 'DESCRIPTION:("' . str_replace(',', '" ' . $queryOperator . ' "', $this->queryDescription) . '")';
+        } else {
+            $params['text'] = '';
+        }
+
         return new VacanciesDataProvider([
-            'params' => [
-                'text' => $this->query,
-                'area' => $this->area,
-                'industry' => empty($this->industry) ? null : $this->industry,
-                'search_field' => ['name', 'description'],
-            ],
+            'params' => $params,
         ]);
     }
 

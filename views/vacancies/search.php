@@ -6,12 +6,16 @@
 
 $this->title = Yii::t('app', 'Vacancies search');
 $this->params['breadcrumbs'][] = ['label' => $this->title];
+$this->on(\yii\web\View::EVENT_BEGIN_PAGE, function() {
+    \app\assets\vacancies\SearchAsset::register($this);
+});
 ?>
 
 <div class="row">
     <div class="col-sm-12">
         <?php $form = \yii\widgets\ActiveForm::begin(['method' => 'get']) ?>
-            <?= $form->field($searchModel, 'query')->label(false)->textInput(['autofocus' => true, 'placeholder' => $searchModel->getAttributeLabel('query')]) ?>
+            <?= $form->field($searchModel, 'queryName')->label(false)->textInput(['autofocus' => true, 'placeholder' => $searchModel->getAttributeLabel('queryName')]) ?>
+            <?= $form->field($searchModel, 'queryDescription')->label(false)->textInput(['placeholder' => $searchModel->getAttributeLabel('queryDescription')]) ?>
             <?= $form->field($searchModel, 'area')->label(false)->widget(\app\widgets\AreaSelect2\Widget::className()) ?>
             <?= $form->field($searchModel, 'industry')->label(false)->widget(\app\widgets\IndustrySelect2\Widget::className()) ?>
 

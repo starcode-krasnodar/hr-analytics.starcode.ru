@@ -1,0 +1,9 @@
+.selectize-input {
+    border-radius: 0;
+    height: 43px;
+    padding: 10px 18px;
+}
+
+.selectize-control.multi .selectize-input.has-items {
+    padding: 10px 18px;
+}

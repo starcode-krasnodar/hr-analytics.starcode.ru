@@ -22,7 +22,8 @@
         "bower-asset/bootswatch": "*",
         "bower-asset/select2": "^4.0",
         "rmrevin/yii2-fontawesome": "2.10.*",
-        "bower-asset/highcharts": "^4.2"
+        "bower-asset/highcharts": "^4.2",
+        "bower-asset/selectize": "^0.12.1"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

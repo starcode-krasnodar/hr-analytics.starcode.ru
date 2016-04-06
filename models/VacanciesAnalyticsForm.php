@@ -11,7 +11,12 @@ class VacanciesAnalyticsForm extends Model
     const MAX_PAGE = 19;
     const PAGE_SIZE = 100;
 
-    public $query;
+    const QUERY_OPERATOR_OR = 'OR';
+    const QUERY_OPERATOR_AND = 'AND';
+
+    public $queryName;
+    public $queryDescription;
+    public $queryOperator;
     public $area;
     public $industry;
 
@@ -26,15 +31,18 @@ class VacanciesAnalyticsForm extends Model
     public function rules()
     {
         return [
-            ['query', 'string'],
+            [['queryName', 'queryDescription'], 'string'],
             [['area', 'industry'], 'integer'],
+            [['queryOperator'], 'default', 'value' => self::QUERY_OPERATOR_AND, 'isEmpty' => true],
+            [['queryOperator'], 'in', 'range' => [self::QUERY_OPERATOR_AND, self::QUERY_OPERATOR_OR]],
         ];
     }
 
     public function attributeLabels()
     {
         return [
-            'query' => \Yii::t('app', 'Enter vacancy name and press Enter'),
+            'queryName' => \Yii::t('app', 'Search by name of vacancy'),
+            'queryDescription' => \Yii::t('app', 'Search by description of vacancy'),
             'area' => \Yii::t('app', 'Select search area'),
             'industry' => \Yii::t('app', 'Select industry of the company'),
         ];
@@ -80,13 +88,27 @@ class VacanciesAnalyticsForm extends Model
         $page = 0;
 
         $params = [
-            'text' => $this->query,
             'area' => $this->area,
             'search_field' => ['name', 'description'],
             'currency' => 'RUR',
         ];
         if (!empty($this->industry)) {
             $params['industry'] = $this->industry;
+        }
+
+        // @see https://krasnodar.hh.ru/article/1175#simple-search
+        $queryOperator = empty($this->queryOperator) ? self::QUERY_OPERATOR_AND : $this->queryOperator;
+        if (!empty($this->queryName) && !empty($this->queryDescription)) {
+            $params['text'] = implode(' ' . $queryOperator . ' ', [
+                'NAME:("' . str_replace(',', '" ' . $queryOperator . ' "', $this->queryName) . '")',
+                'DESCRIPTION:("' . str_replace(',', '" ' . $queryOperator . ' "', $this->queryDescription) . '")',
+            ]);
+        } elseif (!empty($this->queryName)) {
+            $params['text'] = 'NAME:("' . str_replace(',', '" ' . $queryOperator . ' "', $this->queryName) . '")';
+        } elseif (!empty($this->queryDescription)) {
+            $params['text'] = 'DESCRIPTION:("' . str_replace(',', '" ' . $queryOperator . ' "', $this->queryDescription) . '")';
+        } else {
+            $params['text'] = '';
         }
 
         $dataProvider = new VacanciesDataProvider([
