@@ -16,7 +16,7 @@ class VacanciesSearchForm extends Model
 
     public $queryName;
     public $queryDescription;
-    public $queryOperator;
+    public $queryOperator = 'AND';
     public $area;
     public $industry;
 
@@ -37,6 +37,14 @@ class VacanciesSearchForm extends Model
             'queryDescription' => \Yii::t('app', 'Search by description of vacancy'),
             'area' => \Yii::t('app', 'Select search area'),
             'industry' => \Yii::t('app', 'Select industry of the company'),
+        ];
+    }
+
+    public function queryOperatorLabels()
+    {
+        return [
+            self::QUERY_OPERATOR_AND => \Yii::t('app', 'AND'),
+            self::QUERY_OPERATOR_OR => \Yii::t('app', 'OR'),
         ];
     }
 

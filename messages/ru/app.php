@@ -17,10 +17,11 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
+    'AND' => 'И',
     'Email' => '',
     'ID' => '',
     'Linked {client} account.' => '',
-    'Not found vacancies that match your search criteria' => 'Не найдено вакансий, соответствующих критериям поиска',
+    'OR' => 'ИЛИ',
     'Password Reset Token' => '',
     'Unable to link {client} account. There is another user using it.' => '',
     'Unable to link {client} account: {errors}' => '',
@@ -42,6 +43,7 @@ return [
     'Indicators' => 'Показатели',
     'Login' => 'Вход',
     'Logout ({username})' => 'Выйти ({username})',
+    'Not found vacancies that match your search criteria' => 'Не найдено вакансий, соответствующих критериям поиска',
     'Not specified' => 'Не указана',
     'Password' => 'Пароль',
     'Password Hash' => 'Хэш пароля',
