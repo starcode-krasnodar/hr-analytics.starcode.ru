@@ -17,6 +17,9 @@ use rmrevin\yii\fontawesome\FA;
 
 $this->title = Yii::t('app', 'Analytics');
 $this->params['breadcrumbs'][] = ['label' => $this->title];
+$this->on(\yii\web\View::EVENT_BEGIN_PAGE, function() {
+    \app\assets\vacancies\AnalyticsAsset::register($this);
+});
 ?>
 
 <?php $form = \yii\widgets\ActiveForm::begin(['method' => 'GET']) ?>
@@ -89,22 +92,54 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
             </li>
         <?php endif ?>
     </ul>
-    <ul class="list-group">
-        <li class="list-group-item disabled"><?= FA::icon(FA::_SUITCASE, ['class' => 'fa-fw']) ?> <?= Yii::t('app', 'Employment') ?></li>
-        <?php foreach ($employmentCount as $employment => $count): ?>
-        <li class="list-group-item">
-            <span class="badge"><?= round($employmentCountPercent[$employment]) ?> %</span>
-            <?= $model->getEmploymentLabel($employment) ?>
-        </li>
-        <?php endforeach; ?>
-    </ul>
-    <ul class="list-group">
-        <li class="list-group-item disabled"><?= FA::icon(FA::_CLOCK_O, ['class' => 'fa-fw']) ?> <?= Yii::t('app', 'Schedule') ?></li>
-        <?php foreach ($scheduleCount as $schedule => $count): ?>
-        <li class="list-group-item">
-            <span class="badge"><?= round($scheduleCountPercent[$schedule]) ?> %</span>
-            <?= $model->getScheduleLabel($schedule) ?>
-        </li>
-        <?php endforeach; ?>
-    </ul>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-heading"><?= FA::icon(FA::_SUITCASE, ['class' => 'fa-fw']) ?> <?= Yii::t('app', 'Employment') ?></div>
+                <div class="panel-body">
+                    <div id="hc-employment" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+                    <table id="hc-employment-datatable" class="hidden">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th><?= Yii::t('app', 'Employment') ?></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach ($employmentCountPercent as $employment => $percent): ?>
+                            <tr>
+                                <th><?= $model->getEmploymentLabel($employment) ?></th>
+                                <td><?= round($percent) ?></td>
+                            </tr>
+                        <?php endforeach ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="panel panel-default">
+                <div class="panel-heading"><?= FA::icon(FA::_CLOCK_O, ['class' => 'fa-fw']) ?> <?= Yii::t('app', 'Schedule') ?></div>
+                <div class="panel-body">
+                    <div id="hc-schedule" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+                    <table id="hc-schedule-datatable" class="hidden">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th><?= Yii::t('app', 'Schedule') ?></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php foreach ($scheduleCountPercent as $schedule => $percent): ?>
+                            <tr>
+                                <th><?= $model->getScheduleLabel($schedule) ?></th>
+                                <td><?= round($percent) ?></td>
+                            </tr>
+                        <?php endforeach ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 <?php endif ?>

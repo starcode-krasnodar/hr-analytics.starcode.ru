@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "244c3aa956dd9e9122074c3fd3efef81",
-    "content-hash": "fa44883b1496c4acef7a0f1a2a11b796",
+    "hash": "49e36f967ca7915c647d7bc9dc783840",
+    "content-hash": "9e6f659d58b3b989f816f7e3b6ef3ce4",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -145,6 +145,29 @@
                 "CC-BY-3.0"
             ],
             "description": "Font Awesome"
+        },
+        {
+            "name": "bower-asset/highcharts",
+            "version": "v4.2.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/highcharts/highcharts-dist.git",
+                "reference": "a44ac0e8a98bbbc79b7c5916ee9a64dde913fd00"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/highcharts/highcharts-dist/zipball/a44ac0e8a98bbbc79b7c5916ee9a64dde913fd00",
+                "reference": "a44ac0e8a98bbbc79b7c5916ee9a64dde913fd00",
+                "shasum": ""
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": [
+                    "highcharts.js",
+                    "highcharts-more.js",
+                    "modules/exporting.js"
+                ]
+            }
         },
         {
             "name": "bower-asset/jquery",
