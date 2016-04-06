@@ -46,12 +46,9 @@ $this->params['breadcrumbs'][] = ['label' => $this->title];
             ], ['target' => '_blank']) ?>
         </li>
         <li class="list-group-item">
+            <span class="badge"><?= round($totalCountWithSalaryPercent) ?> %</span>
             <span class="badge"><?= $totalCountWithSalary ?></span>
             <?= Yii::t('app', 'The number of jobs with the specified salary') ?>
-        </li>
-        <li class="list-group-item">
-            <span class="badge"><?= round($totalCountWithSalaryPercent) ?> %</span>
-            <?= Yii::t('app', 'The number of jobs with the specified salary percentage') ?>
         </li>
         <?php if (!empty($salaryMax)): ?>
             <li class="list-group-item">
