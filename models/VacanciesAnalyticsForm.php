@@ -17,9 +17,9 @@ class VacanciesAnalyticsForm extends Model
     public $queryName;
     public $queryDescription;
     public $queryOperator = 'AND';
+    public $area = [];
     public $queryNameOperator = 'AND';
     public $queryDescriptionOperator = 'AND';
-    public $area;
     public $industry;
 
     protected $_totalCount;
@@ -34,7 +34,8 @@ class VacanciesAnalyticsForm extends Model
     {
         return [
             [['queryName', 'queryDescription'], 'string'],
-            [['area', 'industry'], 'integer'],
+            [['area'], 'each', 'rule' => ['integer']],
+            [['industry'], 'integer'],
             [['queryOperator', 'queryNameOperator', 'queryDescriptionOperator'], 'default', 'value' => self::QUERY_OPERATOR_AND, 'isEmpty' => true],
             [['queryOperator', 'queryNameOperator', 'queryDescriptionOperator'], 'in', 'range' => [self::QUERY_OPERATOR_AND, self::QUERY_OPERATOR_OR]],
         ];
