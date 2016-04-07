@@ -24,41 +24,41 @@ $this->on(\yii\web\View::EVENT_BEGIN_PAGE, function() {
 
 <?php $form = \yii\widgets\ActiveForm::begin(['method' => 'GET']) ?>
     <div class="row">
-    <div class="col-sm-6">
-        <?= $form->field($model, 'queryName')->label(false)->textInput(['autofocus' => true, 'placeholder' => $model->getAttributeLabel('queryName')]) ?>
-        <?= $form->field($model, 'queryNameOperator')->label(false)->radioList($model->queryOperatorLabels(), [
-            'class' => 'btn-group',
-            'data' => [
-                'toggle' => 'buttons',
-            ],
-            'item' => function($index, $label, $name, $checked, $value) {
-                $return = '<label class="btn btn-primary' . ($checked ? ' active' : '') . '">';
-                $return .= '<input type="radio" name="' . $name . '" value="' . $value . '"  autocomplete="off"' . ($checked ? ' checked' : '') . '>';
-                $return .= $label;
-                $return .= '</label>';
+        <div class="col-sm-6">
+            <?= $form->field($model, 'queryName')->label(false)->textInput(['autofocus' => true, 'placeholder' => $model->getAttributeLabel('queryName')]) ?>
+            <?= $form->field($model, 'queryNameOperator')->label(false)->radioList($model->queryOperatorLabels(), [
+                'class' => 'btn-group',
+                'data' => [
+                    'toggle' => 'buttons',
+                ],
+                'item' => function($index, $label, $name, $checked, $value) {
+                    $return = '<label class="btn btn-primary' . ($checked ? ' active' : '') . '">';
+                    $return .= '<input type="radio" name="' . $name . '" value="' . $value . '"  autocomplete="off"' . ($checked ? ' checked' : '') . '>';
+                    $return .= $label;
+                    $return .= '</label>';
 
-                return $return;
-            }
-        ]) ?>
-    </div>
-    <div class="col-sm-6">
-        <?= $form->field($model, 'queryDescription')->label(false)->textInput(['placeholder' => $model->getAttributeLabel('queryDescription')]) ?>
-        <?= $form->field($model, 'queryDescriptionOperator')->label(false)->radioList($model->queryOperatorLabels(), [
-            'class' => 'btn-group',
-            'data' => [
-                'toggle' => 'buttons',
-            ],
-            'item' => function($index, $label, $name, $checked, $value) {
-                $return = '<label class="btn btn-primary' . ($checked ? ' active' : '') . '">';
-                $return .= '<input type="radio" name="' . $name . '" value="' . $value . '"  autocomplete="off"' . ($checked ? ' checked' : '') . '>';
-                $return .= $label;
-                $return .= '</label>';
+                    return $return;
+                }
+            ]) ?>
+        </div>
+        <div class="col-sm-6">
+            <?= $form->field($model, 'queryDescription')->label(false)->textInput(['placeholder' => $model->getAttributeLabel('queryDescription')]) ?>
+            <?= $form->field($model, 'queryDescriptionOperator')->label(false)->radioList($model->queryOperatorLabels(), [
+                'class' => 'btn-group',
+                'data' => [
+                    'toggle' => 'buttons',
+                ],
+                'item' => function($index, $label, $name, $checked, $value) {
+                    $return = '<label class="btn btn-primary' . ($checked ? ' active' : '') . '">';
+                    $return .= '<input type="radio" name="' . $name . '" value="' . $value . '"  autocomplete="off"' . ($checked ? ' checked' : '') . '>';
+                    $return .= $label;
+                    $return .= '</label>';
 
-                return $return;
-            }
-        ]) ?>
+                    return $return;
+                }
+            ]) ?>
+        </div>
     </div>
-</div>
 
     <?= $form->field($model, 'area')->label(false)->widget(\app\widgets\AreaSelect2\Widget::className()) ?>
     <?= $form->field($model, 'industry')->label(false)->widget(\app\widgets\IndustrySelect2\Widget::className()) ?>
