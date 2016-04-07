@@ -17,14 +17,15 @@ class VacanciesSearchForm extends Model
     public $queryName;
     public $queryDescription;
     public $queryOperator = 'AND';
-    public $area;
+    public $area = [];
     public $industry;
 
     public function rules()
     {
         return [
             [['queryName', 'queryDescription'], 'string'],
-            [['area', 'industry'], 'integer'],
+            [['area'], 'each', 'rule' => ['integer']],
+            [['industry'], 'integer'],
             [['queryOperator'], 'default', 'value' => self::QUERY_OPERATOR_AND, 'isEmpty' => true],
             [['queryOperator'], 'in', 'range' => [self::QUERY_OPERATOR_AND, self::QUERY_OPERATOR_OR]],
         ];

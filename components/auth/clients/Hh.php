@@ -51,4 +51,28 @@ class Hh extends OAuth2
 
         return $this->sendRequest($method, $url, $params, $headers);
     }
+
+    protected function composeUrl($url, array $params = [])
+    {
+        if (strpos($url, '?') === false) {
+            $url .= '?';
+        } else {
+            $url .= '&';
+        }
+
+        // not working with arrays
+//        $url .= http_build_query($params, null, '&', PHP_QUERY_RFC3986);
+        foreach ($params as $param => $value) {
+            if (!empty($value)) {
+                if (is_array($value)) {
+                    foreach ($value as $i => $v) {
+                        $url .= '&' . $param . '=' . rawurlencode($v);
+                    }
+                } else {
+                    $url .= '&' . $param . '=' . rawurlencode($value);
+                }
+            }
+        }
+        return $url;
+    }
 }

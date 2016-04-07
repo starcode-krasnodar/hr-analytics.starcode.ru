@@ -27,8 +27,8 @@ class Widget extends InputWidget
     {
         /** @var VacanciesAnalyticsForm $model */
         $model = $this->model;
-        if ($model->area && ($item = $this->fetchItems($model->area))) {
-            $this->items[] = $item;
+        if ($model->area && ($items = $this->fetchItems($model->area))) {
+            $this->items = $items;
         }
         parent::init();
     }
@@ -41,7 +41,9 @@ class Widget extends InputWidget
         $url = $this->getHhClient()->apiBaseUrl . '/suggests/areas';
         WidgetAsset::register($this->view);
         return Html::activeDropDownList($this->model, $this->attribute, $this->items, ArrayHelper::merge($this->options, [
+            'multiple' => true,
             'data' => [
+                'multiple' => true,
                 'language' => Yii::$app->language,
                 'placeholder' => $this->model->getAttributeLabel($this->attribute),
                 'ajax--url' => $url,
@@ -53,16 +55,16 @@ class Widget extends InputWidget
         ]));
     }
 
-    protected function fetchItems($id)
+    protected function fetchItems($ids)
     {
-        $response = $this->getHhClient()->api('areas/' . $id, 'GET');
-        if (isset($response['name']) && isset($response['id'])) {
-            return [
-                $response['id'] => $response['name'],
-            ];
-        } else {
-            return null;
+        $items = [];
+        foreach ($ids as $id) {
+            $response = $this->getHhClient()->api('areas/' . $id, 'GET');
+            if (isset($response['name']) && isset($response['id'])) {
+                $items[$response['id']] = $response['name'];
+            }
         }
+        return $items;
     }
 
     /**
