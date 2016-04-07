@@ -17,6 +17,8 @@ class VacanciesAnalyticsForm extends Model
     public $queryName;
     public $queryDescription;
     public $queryOperator = 'AND';
+    public $queryNameOperator = 'AND';
+    public $queryDescriptionOperator = 'AND';
     public $area;
     public $industry;
 
@@ -33,8 +35,8 @@ class VacanciesAnalyticsForm extends Model
         return [
             [['queryName', 'queryDescription'], 'string'],
             [['area', 'industry'], 'integer'],
-            [['queryOperator'], 'default', 'value' => self::QUERY_OPERATOR_AND, 'isEmpty' => true],
-            [['queryOperator'], 'in', 'range' => [self::QUERY_OPERATOR_AND, self::QUERY_OPERATOR_OR]],
+            [['queryOperator', 'queryNameOperator', 'queryDescriptionOperator'], 'default', 'value' => self::QUERY_OPERATOR_AND, 'isEmpty' => true],
+            [['queryOperator', 'queryNameOperator', 'queryDescriptionOperator'], 'in', 'range' => [self::QUERY_OPERATOR_AND, self::QUERY_OPERATOR_OR]],
         ];
     }
 
@@ -106,15 +108,17 @@ class VacanciesAnalyticsForm extends Model
 
         // @see https://krasnodar.hh.ru/article/1175#simple-search
         $queryOperator = empty($this->queryOperator) ? self::QUERY_OPERATOR_AND : $this->queryOperator;
+        $queryNameOperator = empty($this->queryNameOperator) ? self::QUERY_OPERATOR_AND : $this->queryNameOperator;
+        $queryDescriptionOperator = empty($this->queryDescriptionOperator) ? self::QUERY_OPERATOR_AND : $this->queryDescriptionOperator;
         if (!empty($this->queryName) && !empty($this->queryDescription)) {
             $params['text'] = implode(' ' . $queryOperator . ' ', [
-                'NAME:("' . str_replace(',', '" ' . $queryOperator . ' "', $this->queryName) . '")',
-                'DESCRIPTION:("' . str_replace(',', '" ' . $queryOperator . ' "', $this->queryDescription) . '")',
+                'NAME:("' . str_replace(',', '" ' . $queryNameOperator . ' "', $this->queryName) . '")',
+                'DESCRIPTION:("' . str_replace(',', '" ' . $queryDescriptionOperator . ' "', $this->queryDescription) . '")',
             ]);
         } elseif (!empty($this->queryName)) {
-            $params['text'] = 'NAME:("' . str_replace(',', '" ' . $queryOperator . ' "', $this->queryName) . '")';
+            $params['text'] = 'NAME:("' . str_replace(',', '" ' . $queryNameOperator . ' "', $this->queryName) . '")';
         } elseif (!empty($this->queryDescription)) {
-            $params['text'] = 'DESCRIPTION:("' . str_replace(',', '" ' . $queryOperator . ' "', $this->queryDescription) . '")';
+            $params['text'] = 'DESCRIPTION:("' . str_replace(',', '" ' . $queryDescriptionOperator . ' "', $this->queryDescription) . '")';
         } else {
             $params['text'] = '';
         }
