@@ -17,11 +17,10 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
-    'AND' => 'И',
     'Email' => '',
+    'Employer' => 'Работодатель',
     'ID' => '',
     'Linked {client} account.' => '',
-    'OR' => 'ИЛИ',
     'Password Reset Token' => '',
     'Unable to link {client} account. There is another user using it.' => '',
     'Unable to link {client} account: {errors}' => '',
@@ -30,6 +29,7 @@ return [
     'User with the same email as in {client} account already exists but isn\'t linked to it. Login using email first to link it.' => '',
     'Enter vacancy name and press Enter' => '@@Введите имя вакансии и нажмите Enter@@',
     'Enter your search phrase and press Enter' => '@@Введите поисковую фразу и нажмите Enter@@',
+    'AND' => 'И',
     'Analytics' => 'Аналитика',
     'Auth Key' => 'Ключ авторизации',
     'Average salary' => 'Средняя зарплата',
@@ -45,6 +45,7 @@ return [
     'Logout ({username})' => 'Выйти ({username})',
     'Not found vacancies that match your search criteria' => 'Не найдено вакансий, соответствующих критериям поиска',
     'Not specified' => 'Не указана',
+    'OR' => 'ИЛИ',
     'Password' => 'Пароль',
     'Password Hash' => 'Хэш пароля',
     'Remember me' => 'Запомнить меня',

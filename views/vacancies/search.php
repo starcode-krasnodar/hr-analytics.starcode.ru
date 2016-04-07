@@ -72,6 +72,15 @@ $this->on(\yii\web\View::EVENT_BEGIN_PAGE, function() {
                     'attribute' => 'name',
                 ],
                 [
+                    'label' => Yii::t('app', 'Employer'),
+                    'attribute' => 'employer',
+                    'content' => function($model) {
+                        return \yii\helpers\Html::a($model['employer']['name'], $model['employer']['alternate_url'], [
+                            'target' => '_blank',
+                        ]);
+                    },
+                ],
+                [
                     'label' => Yii::t('app', 'Salary'),
                     'attribute' => 'salary',
                     'content' => function($model) {
