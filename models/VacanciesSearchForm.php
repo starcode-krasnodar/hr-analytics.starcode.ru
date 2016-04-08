@@ -2,10 +2,7 @@
 
 namespace app\models;
 
-use app\components\auth\clients\Hh;
 use app\components\data\VacanciesDataProvider;
-use Exception;
-use yii\authclient\Collection;
 use yii\base\Model;
 use yii\data\DataProviderInterface;
 
@@ -82,22 +79,5 @@ class VacanciesSearchForm extends Model
         return new VacanciesDataProvider([
             'params' => $params,
         ]);
-    }
-
-
-    /**
-     * @return \yii\authclient\ClientInterface|Hh
-     * @throws Exception
-     * @throws \yii\base\InvalidConfigException
-     */
-    protected function getHhClient()
-    {
-        /** @var Collection $clientCollection */
-        $clientCollection = \Yii::$app->get('authClientCollection');
-        /** @var HH $hhClient */
-        if (!$clientCollection->hasClient('hh')) {
-            throw new Exception('Not found hh client');
-        }
-        return $clientCollection->getClient('hh');
     }
 }

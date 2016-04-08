@@ -49,15 +49,15 @@ class VacanciesController extends Controller
 
     public function actionSearch()
     {
-        $searchModel = new VacanciesSearchForm();
-        if ($searchModel->load(\Yii::$app->request->getQueryParams())) {
-            $dataProvider = $searchModel->search();
+        $model = new VacanciesSearchForm();
+        if ($model->load(\Yii::$app->request->getQueryParams())) {
+            $dataProvider = $model->search();
         } else {
             $dataProvider = new ArrayDataProvider();
         }
 
         return $this->render('search', [
-            'searchModel' => $searchModel,
+            'model' => $model,
             'dataProvider' => $dataProvider,
         ]);
     }

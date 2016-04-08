@@ -1,7 +1,7 @@
 <?php
 
 /* @var $this \yii\web\View */
-/* @var $searchModel \app\models\VacanciesSearchForm */
+/* @var $model \app\models\VacanciesSearchForm */
 /* @var $dataProvider \yii\data\DataProviderInterface */
 
 $this->title = Yii::t('app', 'Vacancies search');
@@ -16,17 +16,17 @@ $this->on(\yii\web\View::EVENT_BEGIN_PAGE, function() {
         <?php $form = \yii\widgets\ActiveForm::begin(['method' => 'get']) ?>
             <div class="row">
                 <div class="col-sm-6">
-                    <?= $form->field($searchModel, 'queryName')->label(false)->textInput(['autofocus' => true, 'placeholder' => $searchModel->getAttributeLabel('queryName')]) ?>
-                    <?= $form->field($searchModel, 'queryNameOperator')->label(false)->radioList($searchModel->queryOperatorLabels()) ?>
+                    <?= $form->field($model, 'queryName')->label(false)->textInput(['autofocus' => true, 'placeholder' => $model->getAttributeLabel('queryName')]) ?>
+                    <?= $form->field($model, 'queryNameOperator')->label(false)->radioList($model->queryOperatorLabels()) ?>
                 </div>
                 <div class="col-sm-6">
-                    <?= $form->field($searchModel, 'queryDescription')->label(false)->textInput(['placeholder' => $searchModel->getAttributeLabel('queryDescription')]) ?>
-                    <?= $form->field($searchModel, 'queryDescriptionOperator')->label(false)->radioList($searchModel->queryOperatorLabels()) ?>
+                    <?= $form->field($model, 'queryDescription')->label(false)->textInput(['placeholder' => $model->getAttributeLabel('queryDescription')]) ?>
+                    <?= $form->field($model, 'queryDescriptionOperator')->label(false)->radioList($model->queryOperatorLabels()) ?>
                 </div>
             </div>
 
-            <?= $form->field($searchModel, 'area')->label(false)->widget(\app\widgets\AreaSelect2\Widget::className()) ?>
-            <?= $form->field($searchModel, 'industry')->label(false)->widget(\app\widgets\IndustrySelect2\Widget::className()) ?>
+            <?= $form->field($model, 'area')->label(false)->widget(\app\widgets\AreaSelect2\Widget::className()) ?>
+            <?= $form->field($model, 'industry')->label(false)->widget(\app\widgets\IndustrySelect2\Widget::className()) ?>
 
             <div class="form-group">
                 <?= \yii\helpers\Html::submitInput(Yii::t('app', 'Search'), ['class' => 'btn btn-primary']) ?>
