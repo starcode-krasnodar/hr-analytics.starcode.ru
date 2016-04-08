@@ -22,6 +22,7 @@ class VacanciesAnalyticsForm extends Model
     public $queryDescriptionOperator = 'AND';
     public $industry;
 
+    protected $_allModels;
     protected $_totalCount;
     protected $_totalCountWithSalary;
     protected $_salaryAverage;
@@ -95,25 +96,7 @@ class VacanciesAnalyticsForm extends Model
 
     public function process()
     {
-        $allModels = [];
-        $page = 0;
-
-        $params = $this->buildParams();
-        $dataProvider = new VacanciesDataProvider([
-            'params' => $params,
-            'pagination' => [
-                'page' => $page,
-                'pageSize' => self::PAGE_SIZE,
-            ],
-        ]);
-
-        while ($page++ < self::MAX_PAGE && ($models = $dataProvider->getModels())) {
-            $allModels = ArrayHelper::merge($allModels, $models);
-            $dataProvider->pagination->setPage($page);
-            $dataProvider->prepare(true);
-        }
-
-        $this->_salaryMax = array_reduce($allModels, function($carry, $item) {
+        $this->_salaryMax = array_reduce($this->getAllModels(), function($carry, $item) {
             if (!empty($item['salary']['to'])) {
                 return max([$item['salary']['to'], $carry]);
             } elseif (!empty($item['salary']['from'])) {
@@ -122,7 +105,7 @@ class VacanciesAnalyticsForm extends Model
                 return $carry;
             }
         }, 0);
-        $this->_salaryMin = array_reduce($allModels, function($carry, $item) {
+        $this->_salaryMin = array_reduce($this->getAllModels(), function($carry, $item) {
             if (!empty($item['salary']['from'])) {
                 return $carry == 0 ? $item['salary']['from'] : min([$item['salary']['from'], $carry]);
             } elseif (!empty($item['salary']['to'])) {
@@ -132,7 +115,7 @@ class VacanciesAnalyticsForm extends Model
             }
         }, 0);
 
-        $salarySum = array_reduce($allModels, function($carry, $item) {
+        $salarySum = array_reduce($this->getAllModels(), function($carry, $item) {
             if (!empty($item['salary']['to']) && !empty($item['salary']['from'])) {
                 $salary = round(($item['salary']['to'] + $item['salary']['from']) / 2);
             } else if (!empty($item['salary']['to'])) {
@@ -145,7 +128,7 @@ class VacanciesAnalyticsForm extends Model
             return $carry + $salary;
         }, 0);
 
-        $this->_totalCountWithSalary = array_reduce($allModels, function($carry, $item) {
+        $this->_totalCountWithSalary = array_reduce($this->getAllModels(), function($carry, $item) {
             if (isset($item['salary']) && !empty($item['salary'])) {
                 return $carry + 1;
             } else {
@@ -153,10 +136,11 @@ class VacanciesAnalyticsForm extends Model
             }
         }, 0);
 
-        $this->_totalCount = count($allModels);
+        $this->_totalCount = count($this->getAllModels());
         $this->_salaryAverage = $this->_totalCountWithSalary != 0 ? round($salarySum / $this->_totalCountWithSalary) : 0;
 
         // employment
+        $params = $this->buildParams();
         $employments = [
             'full', 'part', 'project', 'volunteer', 'probation',
         ];
@@ -202,6 +186,32 @@ class VacanciesAnalyticsForm extends Model
         }
 
         arsort($this->_scheduleCount);
+    }
+
+    /**
+     * @return array|null
+     */
+    public function getAllModels()
+    {
+        if ($this->_allModels === null) {
+            $this->_allModels = [];
+            $page = 0;
+
+            $dataProvider = new VacanciesDataProvider([
+                'params' => $this->buildParams(),
+                'pagination' => [
+                    'page' => $page,
+                    'pageSize' => self::PAGE_SIZE,
+                ],
+            ]);
+
+            while ($page++ < self::MAX_PAGE && ($models = $dataProvider->getModels())) {
+                $this->_allModels = ArrayHelper::merge($this->_allModels, $models);
+                $dataProvider->pagination->setPage($page);
+                $dataProvider->prepare(true);
+            }
+        }
+        return $this->_allModels;
     }
 
     /**
