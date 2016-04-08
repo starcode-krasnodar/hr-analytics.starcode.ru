@@ -233,7 +233,7 @@ class VacanciesSearchForm extends Model
             $this->_totalCountWithSalary = 0;
             $allModels = $this->getAllModels();
             foreach ($allModels as $model) {
-                if (isset($model['salary']) && !empty($item['salary'])) {
+                if (isset($model['salary']) && !empty($model['salary'])) {
                     $this->_totalCountWithSalary++;
                 }
             }
