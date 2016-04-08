@@ -2,7 +2,6 @@
 
 namespace app\controllers;
 
-use app\models\VacanciesAnalyticsForm;
 use app\models\VacanciesSearchForm;
 use yii\data\ArrayDataProvider;
 use yii\filters\AccessControl;
@@ -28,20 +27,11 @@ class VacanciesController extends Controller
     
     public function actionAnalytics()
     {
-        $analyticsModel = new VacanciesAnalyticsForm();
-        $analyticsModel->load(\Yii::$app->request->getQueryParams());
+        $model = new VacanciesSearchForm();
+        $isLoad = $model->load(\Yii::$app->request->getQueryParams());
         return $this->render('analytics', [
-            'model' => $analyticsModel,
-            'totalCount' => $analyticsModel->getTotalCount(),
-            'totalCountWithSalary' => $analyticsModel->getTotalCountWithSalary(),
-            'totalCountWithSalaryPercent' => $analyticsModel->getTotalCountWithSalaryPercent(),
-            'salaryMax' => $analyticsModel->getSalaryMax(),
-            'salaryMin' => $analyticsModel->getSalaryMin(),
-            'salaryAverage' => $analyticsModel->getSalaryAverage(),
-            'employmentCount' => $analyticsModel->getEmploymentCount(),
-            'employmentCountPercent' => $analyticsModel->getEmploymentCountPercent(),
-            'scheduleCount' => $analyticsModel->getScheduleCount(),
-            'scheduleCountPercent' => $analyticsModel->getScheduleCountPercent(),
+            'model' => $model,
+            'isLoad' => $isLoad,
         ]);
     }
 

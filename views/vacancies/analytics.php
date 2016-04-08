@@ -1,19 +1,10 @@
 <?php
 
 /* @var $this \yii\web\View */
-use rmrevin\yii\fontawesome\FA;
+/* @var $model \app\models\VacanciesSearchForm */
+/* @var $isLoad boolean */
 
-/* @var $model \app\models\VacanciesAnalyticsForm */
-/* @var $totalCount int */
-/* @var $totalCountWithSalary int */
-/* @var $totalCountWithSalaryPercent int */
-/* @var $salaryAverage int */
-/* @var $salaryMax int */
-/* @var $salaryMin int */
-/* @var $employmentCount array */
-/* @var $employmentCountPercent array */
-/* @var $scheduleCount array */
-/* @var $scheduleCountPercent array */
+use rmrevin\yii\fontawesome\FA;
 
 $this->title = Yii::t('app', 'Analytics');
 $this->params['breadcrumbs'][] = ['label' => $this->title];
@@ -54,14 +45,14 @@ $this->on(\yii\web\View::EVENT_BEGIN_PAGE, function() {
     </div>
 <?php $form->end() ?>
 
-<?php if ($totalCount !== null && $totalCount !== 0): ?>
+<?php if ($isLoad): ?>
     <div class="row">
         <div class="col-sm-12">
             <div class="panel panel-default">
                 <div class="panel-heading"><?= FA::icon(FA::_BAR_CHART_O, ['class' => 'fa-fw']) ?> <?= Yii::t('app', 'Indicators') ?></div>
                 <ul class="list-group">
                     <li class="list-group-item">
-                        <span class="badge"><?= $totalCount ?></span>
+                        <span class="badge"><?= $model->totalCount ?></span>
                         <?= Yii::t('app', 'The total number of vacancies') ?>
                         <?= \yii\helpers\Html::a(Yii::t('app', 'detail'), [
                             '/vacancies/search',
@@ -77,20 +68,20 @@ $this->on(\yii\web\View::EVENT_BEGIN_PAGE, function() {
                         ], ['target' => '_blank']) ?>
                     </li>
                     <li class="list-group-item">
-                        <span class="badge"><?= $totalCountWithSalary ?> (<?= round($totalCountWithSalaryPercent) ?> %)</span>
+                        <span class="badge"><?= $model->totalCountWithSalary ?> (<?= round($model->totalCountWithSalaryPercent) ?> %)</span>
                         <?= Yii::t('app', 'The number of jobs with the specified salary') ?>
                     </li>
                     <li class="list-group-item">
                         <span class="badge">
-                            <?= Yii::$app->formatter->asCurrency($salaryMin, 'RUB') ?>
+                            <?= Yii::$app->formatter->asCurrency($model->salaryMin, 'RUB') ?>
                             -
-                            <?= Yii::$app->formatter->asCurrency($salaryMax, 'RUB') ?>
+                            <?= Yii::$app->formatter->asCurrency($model->salaryMax, 'RUB') ?>
                         </span>
                         <?= Yii::t('app', 'Salaries range') ?>
                     </li>
-                    <?php if (!empty($salaryAverage)): ?>
+                    <?php if (!empty($model->salaryAverage)): ?>
                         <li class="list-group-item">
-                            <span class="badge"><?= Yii::$app->formatter->asCurrency($salaryAverage, 'RUB') ?></span>
+                            <span class="badge"><?= Yii::$app->formatter->asCurrency($model->salaryAverage, 'RUB') ?></span>
                             <?= Yii::t('app', 'Average salary') ?>
                             <?= \yii\bootstrap\Button::widget([
                                 'label' => FA::icon(FA::_QUESTION_CIRCLE)->__toString(),
@@ -132,7 +123,7 @@ $this->on(\yii\web\View::EVENT_BEGIN_PAGE, function() {
                         </tr>
                         </thead>
                         <tbody>
-                        <?php foreach ($employmentCountPercent as $employment => $percent): ?>
+                        <?php foreach ($model->employmentCountPercent as $employment => $percent): ?>
                             <tr>
                                 <th><?= $model->getEmploymentLabel($employment) ?></th>
                                 <td><?= round($percent) ?></td>
@@ -156,7 +147,7 @@ $this->on(\yii\web\View::EVENT_BEGIN_PAGE, function() {
                         </tr>
                         </thead>
                         <tbody>
-                        <?php foreach ($scheduleCountPercent as $schedule => $percent): ?>
+                        <?php foreach ($model->scheduleCountPercent as $schedule => $percent): ?>
                             <tr>
                                 <th><?= $model->getScheduleLabel($schedule) ?></th>
                                 <td><?= round($percent) ?></td>
@@ -168,7 +159,7 @@ $this->on(\yii\web\View::EVENT_BEGIN_PAGE, function() {
             </div>
         </div>
     </div>
-<?php elseif ($totalCount === 0): ?>
+<?php elseif ($isLoad && ($model->totalCount === 0)): ?>
     <div class="row">
         <div class="col-sm-12">
             <div class="panel panel-default">
