@@ -29,15 +29,30 @@ class Widget extends InputWidget
      */
     public function run()
     {
-        $items = ArrayHelper::map($this->getHhClient()->api('industries', 'GET'), 'id', 'name');
         WidgetAsset::register($this->view);
-        return Html::activeDropDownList($this->model, $this->attribute, $items, ArrayHelper::merge($this->options, [
+        return Html::activeDropDownList($this->model, $this->attribute, $this->getItems(), ArrayHelper::merge($this->options, [
             'prompt' => '',
             'data' => [
                 'language' => \Yii::$app->language,
                 'placeholder' => $this->model->getAttributeLabel($this->attribute),
             ],
         ]));
+    }
+
+    /**
+     * @return array
+     * @throws Exception
+     */
+    protected function getItems()
+    {
+        $key = 'industry-select2-items';
+        $cache = \Yii::$app->cache;
+        if (!$cache->exists($key)) {
+            $items = $this->getHhClient()->api('industries', 'GET');
+            $items = ArrayHelper::map($items, 'id', 'name');
+            $cache->set($key, $items, 7 * 24 * 60 * 60);
+        }
+        return $cache->get($key);
     }
 
     /**
