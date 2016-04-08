@@ -3,9 +3,8 @@
 namespace app\widgets\AreaSelect2;
 
 use app\components\auth\clients\Hh;
-use app\models\VacanciesAnalyticsForm;
+use app\models\VacanciesSearchForm;
 use app\widgets\AreaSelect2\assets\WidgetAsset;
-use Yii;
 use yii\authclient\Collection;
 use yii\base\Exception;
 use yii\helpers\ArrayHelper;
@@ -25,7 +24,7 @@ class Widget extends InputWidget
      */
     public function init()
     {
-        /** @var VacanciesAnalyticsForm $model */
+        /** @var VacanciesSearchForm $model */
         $model = $this->model;
         if ($model->area && ($items = $this->fetchItems($model->area))) {
             $this->items = $items;
@@ -44,7 +43,7 @@ class Widget extends InputWidget
             'multiple' => true,
             'data' => [
                 'multiple' => true,
-                'language' => Yii::$app->language,
+                'language' => \Yii::$app->language,
                 'placeholder' => $this->model->getAttributeLabel($this->attribute),
                 'ajax--url' => $url,
                 'ajax--data-type' => 'json',
@@ -75,7 +74,7 @@ class Widget extends InputWidget
     protected function getHhClient()
     {
         /** @var Collection $clientCollection */
-        $clientCollection = Yii::$app->get('authClientCollection');
+        $clientCollection = \Yii::$app->get('authClientCollection');
         /** @var Hh $hhClient */
         if (!$clientCollection->hasClient('hh')) {
             throw new Exception('Not found hh client');
