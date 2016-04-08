@@ -34,9 +34,11 @@ $this->on(\yii\web\View::EVENT_BEGIN_PAGE, function() {
                     'label' => Yii::t('app', 'Employer'),
                     'attribute' => 'employer',
                     'content' => function($model) {
-                        return \yii\helpers\Html::a($model['employer']['name'], $model['employer']['alternate_url'], [
-                            'target' => '_blank',
-                        ]);
+                        return !isset($model['employer']['alternate_url'])
+                            ? $model['employer']['name']
+                            : \yii\helpers\Html::a($model['employer']['name'], $model['employer']['alternate_url'], [
+                                'target' => '_blank',
+                            ]);
                     },
                 ],
                 [

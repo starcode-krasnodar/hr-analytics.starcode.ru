@@ -19,7 +19,7 @@ $this->on(\yii\web\View::EVENT_BEGIN_PAGE, function() {
     'resetUrl' => ['/vacancies/analytics'],
 ]) ?>
 
-<?php if ($isLoad): ?>
+<?php if ($isLoad && ($model->totalCount !== 0)): ?>
     <div class="row">
         <div class="col-sm-12">
             <div class="panel panel-default">
@@ -133,7 +133,7 @@ $this->on(\yii\web\View::EVENT_BEGIN_PAGE, function() {
             </div>
         </div>
     </div>
-<?php elseif ($isLoad && ($model->totalCount === 0)): ?>
+<?php elseif ($isLoad): ?>
     <div class="row">
         <div class="col-sm-12">
             <div class="panel panel-default">
