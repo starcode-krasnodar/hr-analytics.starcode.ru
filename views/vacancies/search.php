@@ -17,37 +17,11 @@ $this->on(\yii\web\View::EVENT_BEGIN_PAGE, function() {
             <div class="row">
                 <div class="col-sm-6">
                     <?= $form->field($searchModel, 'queryName')->label(false)->textInput(['autofocus' => true, 'placeholder' => $searchModel->getAttributeLabel('queryName')]) ?>
-                    <?= $form->field($searchModel, 'queryNameOperator')->label(false)->radioList($searchModel->queryOperatorLabels(), [
-                        'class' => 'btn-group',
-                        'data' => [
-                            'toggle' => 'buttons',
-                        ],
-                        'item' => function($index, $label, $name, $checked, $value) {
-                            $return = '<label class="btn btn-primary' . ($checked ? ' active' : '') . '">';
-                            $return .= '<input type="radio" name="' . $name . '" value="' . $value . '"  autocomplete="off"' . ($checked ? ' checked' : '') . '>';
-                            $return .= $label;
-                            $return .= '</label>';
-
-                            return $return;
-                        }
-                    ]) ?>
+                    <?= $form->field($searchModel, 'queryNameOperator')->label(false)->radioList($searchModel->queryOperatorLabels()) ?>
                 </div>
                 <div class="col-sm-6">
                     <?= $form->field($searchModel, 'queryDescription')->label(false)->textInput(['placeholder' => $searchModel->getAttributeLabel('queryDescription')]) ?>
-                    <?= $form->field($searchModel, 'queryDescriptionOperator')->label(false)->radioList($searchModel->queryOperatorLabels(), [
-                        'class' => 'btn-group',
-                        'data' => [
-                            'toggle' => 'buttons',
-                        ],
-                        'item' => function($index, $label, $name, $checked, $value) {
-                            $return = '<label class="btn btn-primary' . ($checked ? ' active' : '') . '">';
-                            $return .= '<input type="radio" name="' . $name . '" value="' . $value . '"  autocomplete="off"' . ($checked ? ' checked' : '') . '>';
-                            $return .= $label;
-                            $return .= '</label>';
-
-                            return $return;
-                        }
-                    ]) ?>
+                    <?= $form->field($searchModel, 'queryDescriptionOperator')->label(false)->radioList($searchModel->queryOperatorLabels()) ?>
                 </div>
             </div>
 
