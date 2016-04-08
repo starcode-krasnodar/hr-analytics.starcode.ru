@@ -1,20 +1,21 @@
 <?php
 
-namespace app\assets\vacancies;
+namespace app\assets\controllers;
 
 use yii\web\AssetBundle;
 
-class SearchAsset extends AssetBundle
+class VacanciesAsset extends AssetBundle
 {
     public $basePath = '@webroot';
     public $baseUrl = '@web';
     public $js = [
-        'js/vacancies/search.js',
+        'js/vacancies.js',
     ];
     public $css = [
-        'css/vacancies/search.css',
+        'css/vacancies.css',
     ];
     public $depends = [
+        'app\assets\HighchartsAsset',
         'app\assets\SelectizeJsAsset',
     ];
 }

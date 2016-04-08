@@ -7,7 +7,7 @@
 $this->title = Yii::t('app', 'Vacancies search');
 $this->params['breadcrumbs'][] = ['label' => $this->title];
 $this->on(\yii\web\View::EVENT_BEGIN_PAGE, function() {
-    \app\assets\vacancies\SearchAsset::register($this);
+    \app\assets\controllers\VacanciesAsset::register($this);
 });
 ?>
 
@@ -16,11 +16,22 @@ $this->on(\yii\web\View::EVENT_BEGIN_PAGE, function() {
         <?php $form = \yii\widgets\ActiveForm::begin(['method' => 'get']) ?>
             <div class="row">
                 <div class="col-sm-6">
-                    <?= $form->field($model, 'queryName')->label(false)->textInput(['autofocus' => true, 'placeholder' => $model->getAttributeLabel('queryName')]) ?>
+                    <?= $form->field($model, 'queryName')->label(false)->textInput([
+                        'autofocus' => true,
+                        'placeholder' => $model->getAttributeLabel('queryName'),
+                        'data' => [
+                            'toggle' => 'taggable',
+                        ],
+                    ]) ?>
                     <?= $form->field($model, 'queryNameOperator')->label(false)->radioList($model->queryOperatorLabels()) ?>
                 </div>
                 <div class="col-sm-6">
-                    <?= $form->field($model, 'queryDescription')->label(false)->textInput(['placeholder' => $model->getAttributeLabel('queryDescription')]) ?>
+                    <?= $form->field($model, 'queryDescription')->label(false)->textInput([
+                        'placeholder' => $model->getAttributeLabel('queryDescription'),
+                        'data' => [
+                            'toggle' => 'taggable',
+                        ],
+                    ]) ?>
                     <?= $form->field($model, 'queryDescriptionOperator')->label(false)->radioList($model->queryOperatorLabels()) ?>
                 </div>
             </div>
