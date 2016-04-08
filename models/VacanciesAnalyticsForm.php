@@ -98,16 +98,7 @@ class VacanciesAnalyticsForm extends Model
         $allModels = [];
         $page = 0;
 
-        $params = [
-            'text' => $this->buildTextParam(),
-            'area' => $this->area,
-            'search_field' => ['name', 'description'],
-            'currency' => 'RUR',
-        ];
-        if (!empty($this->industry)) {
-            $params['industry'] = $this->industry;
-        }
-
+        $params = $this->buildParams();
         $dataProvider = new VacanciesDataProvider([
             'params' => $params,
             'pagination' => [
@@ -297,6 +288,24 @@ class VacanciesAnalyticsForm extends Model
             $percentage = $totalCount == 0 ? 0 : ($count / $totalCount);
             return $percentage * 100;
         }, $this->_scheduleCount);
+    }
+
+    /**
+     * @return array
+     */
+    protected function buildParams()
+    {
+        $params = [
+            'text' => $this->buildTextParam(),
+            'area' => $this->area,
+            'search_field' => ['name', 'description'],
+            'currency' => 'RUR',
+        ];
+        if (!empty($this->industry)) {
+            $params['industry'] = $this->industry;
+        }
+
+        return $params;
     }
 
     /**
