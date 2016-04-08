@@ -29,9 +29,7 @@ class VacanciesController extends Controller
     public function actionAnalytics()
     {
         $analyticsModel = new VacanciesAnalyticsForm();
-        if ($analyticsModel->load(\Yii::$app->request->getQueryParams())) {
-            $analyticsModel->process();
-        }
+        $analyticsModel->load(\Yii::$app->request->getQueryParams());
         return $this->render('analytics', [
             'model' => $analyticsModel,
             'totalCount' => $analyticsModel->getTotalCount(),

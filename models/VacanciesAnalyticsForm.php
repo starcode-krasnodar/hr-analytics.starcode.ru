@@ -28,8 +28,8 @@ class VacanciesAnalyticsForm extends Model
     protected $_salaryAverage;
     protected $_salaryMax;
     protected $_salaryMin;
-    protected $_employmentCount = [];
-    protected $_scheduleCount = [];
+    protected $_employmentCount;
+    protected $_scheduleCount;
 
     public function rules()
     {
@@ -94,100 +94,6 @@ class VacanciesAnalyticsForm extends Model
         return isset($scheduleLabels[$schedule]) ? $scheduleLabels[$schedule] : ucfirst($schedule);
     }
 
-    public function process()
-    {
-        $this->_salaryMax = array_reduce($this->getAllModels(), function($carry, $item) {
-            if (!empty($item['salary']['to'])) {
-                return max([$item['salary']['to'], $carry]);
-            } elseif (!empty($item['salary']['from'])) {
-                return max([$item['salary']['from'], $carry]);
-            } else {
-                return $carry;
-            }
-        }, 0);
-        $this->_salaryMin = array_reduce($this->getAllModels(), function($carry, $item) {
-            if (!empty($item['salary']['from'])) {
-                return $carry == 0 ? $item['salary']['from'] : min([$item['salary']['from'], $carry]);
-            } elseif (!empty($item['salary']['to'])) {
-                return $carry == 0 ? $item['salary']['to'] : min([$item['salary']['to'], $carry]);
-            } else {
-                return $carry;
-            }
-        }, 0);
-
-        $salarySum = array_reduce($this->getAllModels(), function($carry, $item) {
-            if (!empty($item['salary']['to']) && !empty($item['salary']['from'])) {
-                $salary = round(($item['salary']['to'] + $item['salary']['from']) / 2);
-            } else if (!empty($item['salary']['to'])) {
-                $salary = $item['salary']['to'];
-            } else if (!empty($item['salary']['from'])) {
-                $salary = $item['salary']['from'];
-            } else {
-                $salary = 0;
-            }
-            return $carry + $salary;
-        }, 0);
-
-        $this->_totalCountWithSalary = array_reduce($this->getAllModels(), function($carry, $item) {
-            if (isset($item['salary']) && !empty($item['salary'])) {
-                return $carry + 1;
-            } else {
-                return $carry;
-            }
-        }, 0);
-
-        $this->_totalCount = count($this->getAllModels());
-        $this->_salaryAverage = $this->_totalCountWithSalary != 0 ? round($salarySum / $this->_totalCountWithSalary) : 0;
-
-        // employment
-        $params = $this->buildParams();
-        $employments = [
-            'full', 'part', 'project', 'volunteer', 'probation',
-        ];
-
-        foreach ($employments as $employment) {
-            $page = 0;
-            $params['employment'] = $employment;
-
-            $dataProvider = new VacanciesDataProvider([
-                'params' => $params,
-                'pagination' => [
-                    'page' => $page,
-                    'pageSize' => self::PAGE_SIZE,
-                ],
-            ]);
-
-            $dataProvider->prepare(true);
-            $this->_employmentCount[$employment] = $dataProvider->getTotalCount();
-        }
-
-        arsort($this->_employmentCount);
-        unset($params['employment']);
-
-        // schedule
-        $schedules = [
-            'fullDay', 'shift', 'flexible', 'remote', 'flyInFlyOut',
-        ];
-
-        foreach ($schedules as $schedule) {
-            $page = 0;
-            $params['schedule'] = $schedule;
-
-            $dataProvider = new VacanciesDataProvider([
-                'params' => $params,
-                'pagination' => [
-                    'page' => $page,
-                    'pageSize' => self::PAGE_SIZE,
-                ],
-            ]);
-
-            $dataProvider->prepare(true);
-            $this->_scheduleCount[$schedule] = $dataProvider->getTotalCount();
-        }
-
-        arsort($this->_scheduleCount);
-    }
-
     /**
      * @return array|null
      */
@@ -219,6 +125,23 @@ class VacanciesAnalyticsForm extends Model
      */
     public function getSalaryAverage()
     {
+        if ($this->_salaryAverage === null) {
+            $salarySum = array_reduce($this->getAllModels(), function($carry, $item) {
+                if (!empty($item['salary']['to']) && !empty($item['salary']['from'])) {
+                    $salary = round(($item['salary']['to'] + $item['salary']['from']) / 2);
+                } else if (!empty($item['salary']['to'])) {
+                    $salary = $item['salary']['to'];
+                } else if (!empty($item['salary']['from'])) {
+                    $salary = $item['salary']['from'];
+                } else {
+                    $salary = 0;
+                }
+                return $carry + $salary;
+            }, 0);
+
+
+            $this->_salaryAverage = $this->getTotalCountWithSalary() != 0 ? round($salarySum / $this->getTotalCountWithSalary()) : 0;
+        }
         return $this->_salaryAverage;
     }
 
@@ -227,6 +150,9 @@ class VacanciesAnalyticsForm extends Model
      */
     public function getTotalCount()
     {
+        if ($this->_totalCount === null) {
+            $this->_totalCount = count($this->getAllModels());
+        }
         return $this->_totalCount;
     }
 
@@ -235,6 +161,17 @@ class VacanciesAnalyticsForm extends Model
      */
     public function getSalaryMax()
     {
+        if ($this->_salaryMax === null) {
+            $this->_salaryMax = array_reduce($this->getAllModels(), function($carry, $item) {
+                if (!empty($item['salary']['to'])) {
+                    return max([$item['salary']['to'], $carry]);
+                } elseif (!empty($item['salary']['from'])) {
+                    return max([$item['salary']['from'], $carry]);
+                } else {
+                    return $carry;
+                }
+            }, 0);
+        }
         return $this->_salaryMax;
     }
 
@@ -243,6 +180,17 @@ class VacanciesAnalyticsForm extends Model
      */
     public function getSalaryMin()
     {
+        if ($this->_salaryMin === null) {
+            $this->_salaryMin = array_reduce($this->getAllModels(), function($carry, $item) {
+                if (!empty($item['salary']['from'])) {
+                    return $carry == 0 ? $item['salary']['from'] : min([$item['salary']['from'], $carry]);
+                } elseif (!empty($item['salary']['to'])) {
+                    return $carry == 0 ? $item['salary']['to'] : min([$item['salary']['to'], $carry]);
+                } else {
+                    return $carry;
+                }
+            }, 0);
+        }
         return $this->_salaryMin;
     }
 
@@ -251,6 +199,15 @@ class VacanciesAnalyticsForm extends Model
      */
     public function getTotalCountWithSalary()
     {
+        if ($this->_totalCountWithSalary === null) {
+            $this->_totalCountWithSalary = array_reduce($this->getAllModels(), function($carry, $item) {
+                if (isset($item['salary']) && !empty($item['salary'])) {
+                    return $carry + 1;
+                } else {
+                    return $carry;
+                }
+            }, 0);
+        }
         return $this->_totalCountWithSalary;
     }
 
@@ -259,12 +216,37 @@ class VacanciesAnalyticsForm extends Model
      */
     public function getTotalCountWithSalaryPercent()
     {
-        $percentage = $this->_totalCount == 0 ? 0 : ($this->_totalCountWithSalary / $this->_totalCount);
+        $percentage = $this->getTotalCount() == 0 ? 0 : ($this->getTotalCountWithSalary() / $this->getTotalCount());
         return $percentage * 100;
     }
 
+    /**
+     * @return array|null
+     */
     public function getEmploymentCount()
     {
+        if ($this->_employmentCount === null) {
+            $params = $this->buildParams();
+            $this->_employmentCount = [];
+            $employments = array_keys($this->employmentLabels());
+            foreach ($employments as $employment) {
+                $page = 0;
+                $params['employment'] = $employment;
+
+                $dataProvider = new VacanciesDataProvider([
+                    'params' => $params,
+                    'pagination' => [
+                        'page' => $page,
+                        'pageSize' => self::PAGE_SIZE,
+                    ],
+                ]);
+
+                $dataProvider->prepare(true);
+                $this->_employmentCount[$employment] = $dataProvider->getTotalCount();
+            }
+
+            arsort($this->_employmentCount);
+        }
         return $this->_employmentCount;
     }
 
@@ -277,7 +259,7 @@ class VacanciesAnalyticsForm extends Model
         return array_map(function($count) use ($totalCount) {
             $percentage = $totalCount == 0 ? 0 : ($count / $totalCount);
             return $percentage * 100;
-        }, $this->_employmentCount);
+        }, $this->getEmploymentCount());
     }
 
     /**
@@ -285,6 +267,29 @@ class VacanciesAnalyticsForm extends Model
      */
     public function getScheduleCount()
     {
+        if ($this->_scheduleCount === null) {
+            $params = $this->buildParams();
+            $this->_scheduleCount = [];
+            $schedules = array_keys($this->scheduleLabels());
+
+            foreach ($schedules as $schedule) {
+                $page = 0;
+                $params['schedule'] = $schedule;
+
+                $dataProvider = new VacanciesDataProvider([
+                    'params' => $params,
+                    'pagination' => [
+                        'page' => $page,
+                        'pageSize' => self::PAGE_SIZE,
+                    ],
+                ]);
+
+                $dataProvider->prepare(true);
+                $this->_scheduleCount[$schedule] = $dataProvider->getTotalCount();
+            }
+
+            arsort($this->_scheduleCount);
+        }
         return $this->_scheduleCount;
     }
 
@@ -297,7 +302,7 @@ class VacanciesAnalyticsForm extends Model
         return array_map(function($count) use ($totalCount) {
             $percentage = $totalCount == 0 ? 0 : ($count / $totalCount);
             return $percentage * 100;
-        }, $this->_scheduleCount);
+        }, $this->getScheduleCount());
     }
 
     /**
