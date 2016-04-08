@@ -57,8 +57,13 @@ class Widget extends InputWidget
     protected function fetchItems($ids)
     {
         $items = [];
+        $cache = \Yii::$app->cache;
         foreach ($ids as $id) {
-            $response = $this->getHhClient()->api('areas/' . $id, 'GET');
+            $key = 'area-select2-item-' . $id;
+            if (!$cache->exists($key)) {
+                $cache->set($key, $this->getHhClient()->api('areas/' . $id, 'GET'), 24 * 60 * 60);
+            }
+            $response = $cache->get($key);
             if (isset($response['name']) && isset($response['id'])) {
                 $items[$response['id']] = $response['name'];
             }
