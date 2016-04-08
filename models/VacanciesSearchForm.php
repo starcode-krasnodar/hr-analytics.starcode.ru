@@ -46,8 +46,8 @@ class VacanciesSearchForm extends Model
     public function queryOperatorLabels()
     {
         return [
-            self::QUERY_OPERATOR_AND => \Yii::t('app', 'AND'),
-            self::QUERY_OPERATOR_OR => \Yii::t('app', 'OR'),
+            self::QUERY_OPERATOR_AND => \Yii::t('app', 'Search all words'),
+            self::QUERY_OPERATOR_OR => \Yii::t('app', 'Search any word'),
         ];
     }
 
