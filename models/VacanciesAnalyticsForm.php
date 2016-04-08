@@ -99,29 +99,13 @@ class VacanciesAnalyticsForm extends Model
         $page = 0;
 
         $params = [
+            'text' => $this->buildTextParam(),
             'area' => $this->area,
             'search_field' => ['name', 'description'],
             'currency' => 'RUR',
         ];
         if (!empty($this->industry)) {
             $params['industry'] = $this->industry;
-        }
-
-        // @see https://krasnodar.hh.ru/article/1175#simple-search
-        $queryOperator = empty($this->queryOperator) ? self::QUERY_OPERATOR_AND : $this->queryOperator;
-        $queryNameOperator = empty($this->queryNameOperator) ? self::QUERY_OPERATOR_AND : $this->queryNameOperator;
-        $queryDescriptionOperator = empty($this->queryDescriptionOperator) ? self::QUERY_OPERATOR_AND : $this->queryDescriptionOperator;
-        if (!empty($this->queryName) && !empty($this->queryDescription)) {
-            $params['text'] = implode(' ' . $queryOperator . ' ', [
-                'NAME:("' . str_replace(',', '" ' . $queryNameOperator . ' "', $this->queryName) . '")',
-                'DESCRIPTION:("' . str_replace(',', '" ' . $queryDescriptionOperator . ' "', $this->queryDescription) . '")',
-            ]);
-        } elseif (!empty($this->queryName)) {
-            $params['text'] = 'NAME:("' . str_replace(',', '" ' . $queryNameOperator . ' "', $this->queryName) . '")';
-        } elseif (!empty($this->queryDescription)) {
-            $params['text'] = 'DESCRIPTION:("' . str_replace(',', '" ' . $queryDescriptionOperator . ' "', $this->queryDescription) . '")';
-        } else {
-            $params['text'] = '';
         }
 
         $dataProvider = new VacanciesDataProvider([
@@ -313,5 +297,28 @@ class VacanciesAnalyticsForm extends Model
             $percentage = $totalCount == 0 ? 0 : ($count / $totalCount);
             return $percentage * 100;
         }, $this->_scheduleCount);
+    }
+
+    /**
+     * @see https://krasnodar.hh.ru/article/1175#simple-search
+     * @return string
+     */
+    protected function buildTextParam()
+    {
+        $queryOperator = empty($this->queryOperator) ? self::QUERY_OPERATOR_AND : $this->queryOperator;
+        $queryNameOperator = empty($this->queryNameOperator) ? self::QUERY_OPERATOR_AND : $this->queryNameOperator;
+        $queryDescriptionOperator = empty($this->queryDescriptionOperator) ? self::QUERY_OPERATOR_AND : $this->queryDescriptionOperator;
+        if (!empty($this->queryName) && !empty($this->queryDescription)) {
+            return implode(' ' . $queryOperator . ' ', [
+                'NAME:("' . str_replace(',', '" ' . $queryNameOperator . ' "', $this->queryName) . '")',
+                'DESCRIPTION:("' . str_replace(',', '" ' . $queryDescriptionOperator . ' "', $this->queryDescription) . '")',
+            ]);
+        } elseif (!empty($this->queryName)) {
+            return 'NAME:("' . str_replace(',', '" ' . $queryNameOperator . ' "', $this->queryName) . '")';
+        } elseif (!empty($this->queryDescription)) {
+            return'DESCRIPTION:("' . str_replace(',', '" ' . $queryDescriptionOperator . ' "', $this->queryDescription) . '")';
+        } else {
+            return '';
+        }
     }
 }
