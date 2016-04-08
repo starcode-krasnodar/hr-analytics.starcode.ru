@@ -150,19 +150,21 @@ class VacanciesSearchForm extends Model
     public function getSalaryAverage()
     {
         if ($this->_salaryAverage === null) {
-            $salarySum = array_reduce($this->getAllModels(), function($carry, $item) {
-                if (!empty($item['salary']['to']) && !empty($item['salary']['from'])) {
-                    $salary = round(($item['salary']['to'] + $item['salary']['from']) / 2);
-                } else if (!empty($item['salary']['to'])) {
-                    $salary = $item['salary']['to'];
-                } else if (!empty($item['salary']['from'])) {
-                    $salary = $item['salary']['from'];
-                } else {
-                    $salary = 0;
+            $salarySum = 0.0;
+            $allModels = $this->getAllModels();
+            foreach ($allModels as $model) {
+                if (!empty($model['salary'])) {
+                    $to = $model['salary']['to'];
+                    $from = $model['salary']['from'];
+                    if (!empty($to) && !empty($from)) {
+                        $salarySum += round($to + $from) / 2;
+                    } else if (empty($from)) {
+                        $salarySum += $to;
+                    } else if (empty($to)) {
+                        $salarySum += $from;
+                    }
                 }
-                return $carry + $salary;
-            }, 0);
-
+            }
 
             $this->_salaryAverage = $this->getTotalCountWithSalary() != 0 ? round($salarySum / $this->getTotalCountWithSalary()) : 0;
         }
@@ -186,15 +188,15 @@ class VacanciesSearchForm extends Model
     public function getSalaryMax()
     {
         if ($this->_salaryMax === null) {
-            $this->_salaryMax = array_reduce($this->getAllModels(), function($carry, $item) {
-                if (!empty($item['salary']['to'])) {
-                    return max([$item['salary']['to'], $carry]);
-                } elseif (!empty($item['salary']['from'])) {
-                    return max([$item['salary']['from'], $carry]);
-                } else {
-                    return $carry;
+            $this->_salaryMax = 0;
+            $allModels = $this->getAllModels();
+            foreach ($allModels as $model) {
+                if (!empty($model['salary'])) {
+                    $to = $model['salary']['to'];
+                    $from = $model['salary']['from'];
+                    $this->_salaryMax = max($this->_salaryMax, $to, $from);
                 }
-            }, 0);
+            }
         }
         return $this->_salaryMax;
     }
@@ -205,15 +207,19 @@ class VacanciesSearchForm extends Model
     public function getSalaryMin()
     {
         if ($this->_salaryMin === null) {
-            $this->_salaryMin = array_reduce($this->getAllModels(), function($carry, $item) {
-                if (!empty($item['salary']['from'])) {
-                    return $carry == 0 ? $item['salary']['from'] : min([$item['salary']['from'], $carry]);
-                } elseif (!empty($item['salary']['to'])) {
-                    return $carry == 0 ? $item['salary']['to'] : min([$item['salary']['to'], $carry]);
-                } else {
-                    return $carry;
+            $this->_salaryMin = $this->getSalaryMax();
+            $allModels = $this->getAllModels();
+            foreach ($allModels as $model) {
+                if (!empty($model['salary'])) {
+                    $to = $model['salary']['to'];
+                    $from = $model['salary']['from'];
+                    if ($from !== null) {
+                        $this->_salaryMin = min($this->_salaryMin, $from);
+                    } else if ($to !== null) {
+                        $this->_salaryMin = min($this->_salaryMin, $to);
+                    }
                 }
-            }, 0);
+            }
         }
         return $this->_salaryMin;
     }
@@ -224,13 +230,13 @@ class VacanciesSearchForm extends Model
     public function getTotalCountWithSalary()
     {
         if ($this->_totalCountWithSalary === null) {
-            $this->_totalCountWithSalary = array_reduce($this->getAllModels(), function($carry, $item) {
-                if (isset($item['salary']) && !empty($item['salary'])) {
-                    return $carry + 1;
-                } else {
-                    return $carry;
+            $this->_totalCountWithSalary = 0;
+            $allModels = $this->getAllModels();
+            foreach ($allModels as $model) {
+                if (isset($model['salary']) && !empty($item['salary'])) {
+                    $this->_totalCountWithSalary++;
                 }
-            }, 0);
+            }
         }
         return $this->_totalCountWithSalary;
     }
@@ -240,7 +246,9 @@ class VacanciesSearchForm extends Model
      */
     public function getTotalCountWithSalaryPercent()
     {
-        $percentage = $this->getTotalCount() == 0 ? 0 : ($this->getTotalCountWithSalary() / $this->getTotalCount());
+        $totalCount = $this->getTotalCount();
+        $totalCountWithSalary = $this->getTotalCountWithSalary();
+        $percentage = $totalCount == 0 ? 0 : ($totalCountWithSalary / $totalCount);
         return $percentage * 100;
     }
 
@@ -261,7 +269,7 @@ class VacanciesSearchForm extends Model
                     'params' => $params,
                     'pagination' => [
                         'page' => $page,
-                        'pageSize' => self::PAGE_SIZE,
+                        'pageSize' => 1,
                     ],
                 ]);
 
@@ -280,10 +288,13 @@ class VacanciesSearchForm extends Model
     public function getEmploymentCountPercent()
     {
         $totalCount = $this->getTotalCount();
-        return array_map(function($count) use ($totalCount) {
+        $employmentCount = $this->getEmploymentCount();
+        $employmentCountPercent = [];
+        foreach ($employmentCount as $employment => $count) {
             $percentage = $totalCount == 0 ? 0 : ($count / $totalCount);
-            return $percentage * 100;
-        }, $this->getEmploymentCount());
+            $employmentCountPercent[$employment] = $percentage * 100;
+        }
+        return $employmentCountPercent;
     }
 
     /**
@@ -304,7 +315,7 @@ class VacanciesSearchForm extends Model
                     'params' => $params,
                     'pagination' => [
                         'page' => $page,
-                        'pageSize' => self::PAGE_SIZE,
+                        'pageSize' => 1,
                     ],
                 ]);
 
@@ -323,10 +334,13 @@ class VacanciesSearchForm extends Model
     public function getScheduleCountPercent()
     {
         $totalCount = $this->getTotalCount();
-        return array_map(function($count) use ($totalCount) {
+        $scheduleCount = $this->getScheduleCount();
+        $scheduleCountPercent = [];
+        foreach ($scheduleCount as $schedule => $count) {
             $percentage = $totalCount == 0 ? 0 : ($count / $totalCount);
-            return $percentage * 100;
-        }, $this->getScheduleCount());
+            $scheduleCountPercent[$schedule] = $percentage * 100;
+        }
+        return $scheduleCountPercent;
     }
 
     /**
