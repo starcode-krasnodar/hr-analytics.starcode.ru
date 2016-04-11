@@ -1,10 +1,16 @@
 <?php
 
-$dbopts = parse_url(getenv('DATABASE_URL'));
-return [
-    'class' => 'yii\db\Connection',
-    'dsn' => 'pgsql:dbname=' . ltrim($dbopts['path'],'/') . ';host=' . $dbopts['host'] . ';port=' . $dbopts['port'],
-    'username' => $dbopts['user'],
-    'password' => $dbopts['pass'],
-    'charset' => 'utf8',
-];
+if (file_exists(__DIR__ . '/db-local.php')) {
+    /** @noinspection PhpIncludeInspection */
+    return require(__DIR__ . '/db-local.php');
+} else {
+    $envDatabaseUrl = getenv('DATABASE_URL');
+    $dbOpts = parse_url($envDatabaseUrl);
+    return [
+        'class' => 'yii\db\Connection',
+        'dsn' => 'pgsql:dbname=' . ltrim($dbOpts['path'],'/') . ';host=' . $dbOpts['host'] . ';port=' . $dbOpts['port'],
+        'username' => $dbOpts['user'],
+        'password' => $dbOpts['pass'],
+        'charset' => 'utf8',
+    ];
+}
