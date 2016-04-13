@@ -1,0 +1,27 @@
+version: '2'
+services:
+  db_data:
+    image: busybox
+    volumes:
+      - /data
+  db:
+    image: mysql:5.6
+    volumes_from:
+      - db_data:rw
+    volumes:
+      - /data:/var/lib/mysql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+      MYSQL_DATABASE: hr
+      MYSQL_USER: hr
+      MYSQL_PASSWORD: hr
+    depends_on:
+      - db_data
+  web:
+    build: .
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www
+    depends_on:
+      - db
