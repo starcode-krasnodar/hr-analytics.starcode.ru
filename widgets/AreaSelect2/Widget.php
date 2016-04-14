@@ -44,7 +44,7 @@ class Widget extends InputWidget
             'data' => [
                 'multiple' => true,
                 'language' => \Yii::$app->language,
-                'placeholder' => $this->model->getAttributeLabel($this->attribute),
+                'placeholder' => $this->model->getAttributeHint($this->attribute),
                 'ajax--url' => $url,
                 'ajax--data-type' => 'json',
                 'ajax--delay' => 250,

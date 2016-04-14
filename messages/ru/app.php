@@ -17,12 +17,14 @@
  * NOTE: this file must be saved in UTF-8 encoding.
  */
 return [
+    'Area' => 'Регион',
+    'Description' => 'Описание',
     'Email' => '',
     'ID' => '',
+    'Industry' => 'Индустрия',
     'Linked {client} account.' => '',
+    'Name' => 'Название',
     'Password Reset Token' => '',
-    'Search all words' => 'Искать все слова',
-    'Search any word' => 'Искать любое слово',
     'Unable to link {client} account. There is another user using it.' => '',
     'Unable to link {client} account: {errors}' => '',
     'Unable to save user: {errors}' => '',
@@ -57,6 +59,8 @@ return [
     'Salary' => 'Зарплата',
     'Schedule' => 'График работы',
     'Search' => 'Поиск',
+    'Search all words' => 'Искать все слова',
+    'Search any word' => 'Искать любое слово',
     'Search by description of vacancy' => 'Поиск по описанию вакансии',
     'Search by name of vacancy' => 'Поиск по названию вакансии',
     'Select industry of the company' => 'Выберите отрасль компании',

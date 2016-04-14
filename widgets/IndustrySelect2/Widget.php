@@ -34,7 +34,7 @@ class Widget extends InputWidget
             'prompt' => '',
             'data' => [
                 'language' => \Yii::$app->language,
-                'placeholder' => $this->model->getAttributeLabel($this->attribute),
+                'placeholder' => $this->model->getAttributeHint($this->attribute),
             ],
         ]));
     }

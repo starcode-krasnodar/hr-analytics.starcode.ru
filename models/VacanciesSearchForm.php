@@ -56,13 +56,29 @@ class VacanciesSearchForm extends Model
         ];
     }
 
-    public function attributeLabels()
+    /**
+     * @inheritdoc
+     */
+    public function attributeHints()
     {
         return [
             'queryName' => \Yii::t('app', 'Search by name of vacancy'),
             'queryDescription' => \Yii::t('app', 'Search by description of vacancy'),
             'area' => \Yii::t('app', 'Select search area'),
             'industry' => \Yii::t('app', 'Select industry of the company'),
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'queryName' => \Yii::t('app', 'Name'),
+            'queryDescription' => \Yii::t('app', 'Description'),
+            'area' => \Yii::t('app', 'Area'),
+            'industry' => \Yii::t('app', 'Industry'),
         ];
     }
 
