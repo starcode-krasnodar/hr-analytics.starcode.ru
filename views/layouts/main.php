@@ -44,14 +44,13 @@ AppAsset::register($this);
                 ['label' => Yii::t('app', 'Search'), 'url' => ['/vacancies/search']],
             ]],
             ['label' => Yii::t('app', 'Resumes'), 'url' => ['/resumes/search']],
-            '<li>'
-            . Html::beginForm(['/site/logout'], 'post')
-            . Html::submitButton(
-                Yii::t('app', 'Logout ({username})', ['username' => Yii::$app->user->identity->username ]),
-                ['class' => 'btn btn-link']
-            )
-            . Html::endForm()
-            . '</li>'
+            [
+                'label' => Yii::t('app', 'Logout ({username})', ['username' => Yii::$app->user->identity->username]),
+                'url' => ['/site/logout'],
+                'linkOptions' => [
+                    'data-method' => 'post',
+                ],
+            ],
         ];
     }
     echo Nav::widget([
